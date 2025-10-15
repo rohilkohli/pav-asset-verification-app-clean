@@ -191,7 +191,8 @@ function AssetTable() {
     flexWrap: 'wrap', 
     justifyContent: 'center' 
   }}>
-        {/* Left: Asset Type / Make / PAV Status */}
+        {/* Filters section with label */}
+        <Box sx={{ display: 'flex', gap: { xs: 1, sm: 1.5 }, alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center', width: { xs: '100%', sm: 'auto' } }}>
   <FormControl size="small" sx={{ minWidth: { xs: '100%', sm: 140 }, maxWidth: { xs: '100%', sm: 'none' } }}>
           <InputLabel>Asset Type</InputLabel>
           <Select
@@ -227,10 +228,15 @@ function AssetTable() {
             {pavStatuses.map(p => <MenuItem key={p} value={p}>{p}</MenuItem>)}
           </Select>
         </FormControl>
+        </Box>
 
-    {/* centered layout; no spacer */}
-
-        {/* Right: Sort By / Direction */}
+        {/* Sort section with label */}
+        <Box sx={{ display: 'flex', gap: { xs: 1, sm: 1.5 }, alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center', width: { xs: '100%', sm: 'auto' } }}>
+          <Box component="span" sx={{ 
+            color: 'text.secondary', 
+            fontSize: { xs: '0.875rem', sm: '1rem' },
+            display: { xs: 'none', sm: 'block' }
+          }}>Sort By</Box>
   <FormControl size="small" sx={{ minWidth: { xs: '100%', sm: 140 }, maxWidth: { xs: '100%', sm: 'none' } }}>
           <InputLabel>Sort By</InputLabel>
           <Select value={sortBy} label="Sort By" onChange={e => setSortBy(e.target.value)}>
@@ -241,6 +247,11 @@ function AssetTable() {
             <MenuItem value="Asset Type">Asset Type</MenuItem>
           </Select>
         </FormControl>
+          <Box component="span" sx={{ 
+            color: 'text.secondary', 
+            fontSize: { xs: '0.875rem', sm: '1rem' },
+            display: { xs: 'none', sm: 'block' }
+          }}>Direction</Box>
   <FormControl size="small" sx={{ minWidth: { xs: '100%', sm: 120 }, maxWidth: { xs: '100%', sm: 'none' } }}>
           <InputLabel>Direction</InputLabel>
           <Select value={sortDir} label="Direction" onChange={e => setSortDir(e.target.value)}>
@@ -248,6 +259,7 @@ function AssetTable() {
             <MenuItem value="desc">Descending</MenuItem>
           </Select>
         </FormControl>
+        </Box>
       </Paper>
 
       {shouldSuppress ? (

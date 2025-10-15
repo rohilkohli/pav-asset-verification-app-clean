@@ -56,13 +56,11 @@ function App() {
             <TopButtons mode={mode} setMode={setMode} />
 
             {/* uniform vertical spacing between TopButtons -> SearchBar -> FilterBar */}
-            <Box sx={{ display: 'flex', justifyContent: 'center', mb: 1, px: { xs: 0, sm: 2 } }}> 
-              <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-                <SearchBar />
-              </Box>
+            <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2, px: { xs: 0, sm: 2 } }}> 
+              <SearchBar />
             </Box>
 
-            <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
+            <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
               <FilterBar />
             </Box>
 

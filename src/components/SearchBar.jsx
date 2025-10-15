@@ -20,14 +20,16 @@ function SearchBar() {
       alignItems: 'center',
       flexDirection: { xs: 'column', sm: 'row' },
       width: '100%',
-      maxWidth: { xs: '100%', sm: 'auto' }
+      maxWidth: { xs: '100%', sm: 'auto' },
+      justifyContent: 'center'
     }}>
       <Box component="span" sx={{ 
         color: 'text.secondary', 
         mr: { xs: 0, sm: 1 },
         fontSize: { xs: '0.875rem', sm: '1rem' },
-        textAlign: { xs: 'center', sm: 'left' }
+        textAlign: 'center'
       }}>Select Search Criteria</Box>
+      <Box sx={{ display: 'flex', gap: 1, alignItems: 'center', flexDirection: { xs: 'column', sm: 'row' }, width: { xs: '100%', sm: 'auto' } }}>
       <FormControl size="small" sx={{ minWidth: { xs: '100%', sm: 160 }, width: { xs: '100%', sm: 'auto' } }}>
         <InputLabel>Criteria</InputLabel>
         <Select value={searchCriteria} label="Criteria" onChange={e => setSearchCriteria(e.target.value)}>
@@ -59,6 +61,7 @@ function SearchBar() {
           )
         }}
       />
+      </Box>
     </Box>
   );
 }
