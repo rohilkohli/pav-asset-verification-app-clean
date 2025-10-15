@@ -2,7 +2,7 @@
 
 ## Security Vulnerabilities Status
 
-### Fixed Vulnerabilities (9 resolved)
+### Fixed Vulnerabilities (7 resolved)
 
 The following security vulnerabilities have been resolved by using npm package overrides:
 
@@ -16,12 +16,23 @@ The following security vulnerabilities have been resolved by using npm package o
    - Fixed by: Upgrading to version 8.4.31 via package overrides
    - Advisory: GHSA-7fh5-64p2-3v2j
 
-3. **webpack-dev-server** (Moderate severity)
-   - Issue: Source code theft vulnerability
-   - Fixed by: Upgrading to version 5.2.1 via package overrides
-   - Advisory: GHSA-9jgg-88mc-972h, GHSA-4v9v-hfq4-rm2v
+These fixes also resolved transitive dependency vulnerabilities in:
+- css-select
+- svgo
+- @svgr/plugin-svgo
+- @svgr/webpack
+- resolve-url-loader
 
-### Known Vulnerability (1 remaining)
+### Known Vulnerabilities (3 remaining)
+
+**webpack-dev-server** (Moderate severity - Development only)
+- Issues:
+  1. Source code theft when visiting malicious websites (GHSA-9jgg-88mc-972h)
+  2. Source code theft vulnerability with non-Chromium browsers (GHSA-4v9v-hfq4-rm2v)
+- Status: **Development dependency only** - Does not affect production builds
+- Current version: 4.15.2 (bundled with react-scripts 5.0.1)
+- Note: This vulnerability only affects developers running the dev server locally. It does not impact the production build or deployed application.
+- Mitigation: Developers should avoid visiting untrusted websites while the development server is running.
 
 **xlsx library** (High severity)
 - Issues:
