@@ -71,3 +71,7 @@ Troubleshooting
 ---------------
 - If the site doesn't appear, check the `Actions` tab in GitHub to see the `Deploy to GitHub Pages` workflow run status.
 - Ensure the repository name matches the `homepage` value in `package.json`, or update `homepage` accordingly.
+
+Security
+--------
+This project uses npm package overrides to address known security vulnerabilities. See [SECURITY.md](SECURITY.md) for details about resolved and known vulnerabilities. Run `npm audit` to check the current security status.
