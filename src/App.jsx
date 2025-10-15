@@ -110,12 +110,22 @@ function TopButtons({ mode, setMode }) {
         width: '100%',
         justifyContent: 'center'
       }}>
-        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: { xs: '100%', sm: 'auto' } }}>
-          <Box sx={{ color: 'text.secondary', fontSize: 12, mb: 0.5 }}>Engineer Name</Box>
+        <Box sx={{ display: 'flex', gap: 1, alignItems: 'center', flexDirection: { xs: 'column', sm: 'row' }, width: { xs: '100%', sm: 'auto' } }}>
+          <Box component="span" sx={{ 
+            color: 'text.secondary', 
+            fontSize: { xs: '0.875rem', sm: '1rem' },
+            textAlign: { xs: 'center', sm: 'left' },
+            minWidth: { xs: 'auto', sm: 'auto' }
+          }}>Engineer Name</Box>
           <TextField size="small" value={engineerName || ''} onChange={e => setEngineerName(e.target.value)} sx={{ minWidth: { xs: '100%', sm: 220 }, width: { xs: '100%', sm: 'auto' } }} />
         </Box>
-        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: { xs: '100%', sm: 'auto' } }}>
-          <Box sx={{ color: 'text.secondary', fontSize: 12, mb: 0.5 }}>PAV Date</Box>
+        <Box sx={{ display: 'flex', gap: 1, alignItems: 'center', flexDirection: { xs: 'column', sm: 'row' }, width: { xs: '100%', sm: 'auto' } }}>
+          <Box component="span" sx={{ 
+            color: 'text.secondary', 
+            fontSize: { xs: '0.875rem', sm: '1rem' },
+            textAlign: { xs: 'center', sm: 'left' },
+            minWidth: { xs: 'auto', sm: 'auto' }
+          }}>PAV Date</Box>
           <TextField size="small" type="date" value={defaultPavDate} onChange={e => setDefaultPavDate(e.target.value)} InputLabelProps={{ shrink: true }} sx={{ minWidth: { xs: '100%', sm: 160 }, width: { xs: '100%', sm: 'auto' } }} />
         </Box>
       </Box>
