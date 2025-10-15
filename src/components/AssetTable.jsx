@@ -101,6 +101,16 @@ function AssetTable() {
     return copy;
   }, [filtered, sortBy, sortDir]);
 
+  // Calculate counts by PAV Status from filtered results
+  const pavStatusCounts = useMemo(() => {
+    const counts = {};
+    filtered.forEach(asset => {
+      const status = asset['PAV Status'] || 'Unknown';
+      counts[status] = (counts[status] || 0) + 1;
+    });
+    return counts;
+  }, [filtered]);
+
   // Handler for dropdown and text changes
   const handleChange = (idx, field, value) => {
     const updated = [...assets];
@@ -189,8 +199,9 @@ function AssetTable() {
     gap: { xs: 1, sm: 1.5 }, 
     alignItems: 'center', 
     flexWrap: 'wrap', 
-    justifyContent: 'center' 
+    justifyContent: 'space-between' 
   }}>
+        <Box sx={{ display: 'flex', gap: { xs: 1, sm: 1.5 }, alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center', flex: 1 }}>
         {/* Filters section with label */}
         <Box sx={{ display: 'flex', gap: { xs: 1, sm: 1.5 }, alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center', width: { xs: '100%', sm: 'auto' } }}>
   <FormControl size="small" sx={{ minWidth: { xs: '100%', sm: 140 }, maxWidth: { xs: '100%', sm: 'none' } }}>
@@ -259,6 +270,31 @@ function AssetTable() {
             <MenuItem value="desc">Descending</MenuItem>
           </Select>
         </FormControl>
+        </Box>
+        </Box>
+
+        {/* PAV Status Counter on the right */}
+        <Box sx={{ 
+          display: 'flex', 
+          gap: 1, 
+          alignItems: 'center', 
+          flexWrap: 'wrap',
+          justifyContent: { xs: 'center', md: 'flex-end' },
+          width: { xs: '100%', md: 'auto' },
+          mt: { xs: 1, md: 0 }
+        }}>
+          <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: 500 }}>
+            Counts:
+          </Typography>
+          {Object.entries(pavStatusCounts).map(([status, count]) => (
+            <Chip 
+              key={status}
+              label={`${status}: ${count}`}
+              size="small"
+              color={(status || '').toLowerCase() === 'available' ? 'success' : 'default'}
+              sx={{ fontWeight: 500 }}
+            />
+          ))}
         </Box>
       </Paper>
 
