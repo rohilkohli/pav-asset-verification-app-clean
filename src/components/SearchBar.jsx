@@ -14,9 +14,23 @@ function SearchBar() {
   };
 
   return (
-    <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-      <Box component="span" sx={{ color: 'text.secondary', mr: 1 }}>Select Search Criteria</Box>
-      <FormControl size="small" sx={{ minWidth: 160 }}>
+    <Box sx={{ 
+      display: 'flex', 
+      gap: 1, 
+      alignItems: 'center',
+      flexDirection: { xs: 'column', sm: 'row' },
+      width: '100%',
+      maxWidth: { xs: '100%', sm: 'auto' },
+      justifyContent: 'center'
+    }}>
+      <Box component="span" sx={{ 
+        color: 'text.secondary', 
+        mr: { xs: 0, sm: 1 },
+        fontSize: { xs: '0.875rem', sm: '1rem' },
+        textAlign: 'center'
+      }}>Select Search Criteria</Box>
+      <Box sx={{ display: 'flex', gap: 1, alignItems: 'center', flexDirection: { xs: 'column', sm: 'row' }, width: { xs: '100%', sm: 'auto' } }}>
+      <FormControl size="small" sx={{ minWidth: { xs: '100%', sm: 160 }, width: { xs: '100%', sm: 'auto' } }}>
         <InputLabel>Criteria</InputLabel>
         <Select value={searchCriteria} label="Criteria" onChange={e => setSearchCriteria(e.target.value)}>
           <MenuItem value="Serial Number">Serial Number</MenuItem>
@@ -31,7 +45,7 @@ function SearchBar() {
         placeholder={placeholderMap[searchCriteria] || 'Search'}
         value={search}
         onChange={e => setSearch(e.target.value)}
-        sx={{ minWidth: 320 }}
+        sx={{ minWidth: { xs: '100%', sm: 320 }, width: { xs: '100%', sm: 'auto' } }}
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
@@ -47,6 +61,7 @@ function SearchBar() {
           )
         }}
       />
+      </Box>
     </Box>
   );
 }

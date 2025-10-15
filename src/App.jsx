@@ -45,10 +45,10 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <AssetProvider>
-        <Container maxWidth="lg" sx={{ py: 4 }}>
+        <Container maxWidth="lg" sx={{ py: { xs: 2, sm: 3, md: 4 }, px: { xs: 1, sm: 2 } }}>
           {/* add extra bottom padding equal to footer height + safe spacing to avoid overlap */}
-          <Paper elevation={3} sx={{ p: 3, pb: 10, bgcolor: 'background.paper', backdropFilter: 'blur(6px)', borderRadius: 2 }}>
-            <Typography variant="h4" component="h1" align="center" gutterBottom>
+          <Paper elevation={3} sx={{ p: { xs: 2, sm: 3 }, pb: 10, bgcolor: 'background.paper', backdropFilter: 'blur(6px)', borderRadius: 2 }}>
+            <Typography variant="h4" component="h1" align="center" gutterBottom sx={{ fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' } }}>
               Physical Asset Verification
             </Typography>
 
@@ -56,13 +56,11 @@ function App() {
             <TopButtons mode={mode} setMode={setMode} />
 
             {/* uniform vertical spacing between TopButtons -> SearchBar -> FilterBar */}
-            <Box sx={{ display: 'flex', justifyContent: 'center', mb: 1 }}> 
-              <Box sx={{ ml: 2 }}> {/* nudge search slightly to the right */}
-                <SearchBar />
-              </Box>
+            <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2, px: { xs: 0, sm: 2 } }}> 
+              <SearchBar />
             </Box>
 
-            <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
+            <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
               <FilterBar />
             </Box>
 
@@ -79,23 +77,54 @@ function TopButtons({ mode, setMode }) {
   const { saveChanges, engineerName, setEngineerName, defaultPavDate, setDefaultPavDate } = useContext(AssetContext);
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mb: 3, gap: 1 }}>
-      <Box sx={{ display: 'flex', gap: 3, alignItems: 'center' }}>
+      <Box sx={{ 
+        display: 'flex', 
+        gap: { xs: 1, sm: 2, md: 3 }, 
+        alignItems: 'center',
+        flexWrap: 'wrap',
+        justifyContent: 'center'
+      }}>
         <UploadForm />
-        <Button variant="contained" color="primary" onClick={() => saveChanges()}>Save Changes</Button>
+        <Button 
+          variant="contained" 
+          color="primary" 
+          onClick={() => saveChanges()}
+          sx={{ fontSize: { xs: '0.8rem', sm: '0.875rem' } }}
+        >
+          Save Changes
+        </Button>
         <DownloadButton />
         <IconButton sx={{ ml: 1 }} color="inherit" onClick={() => { setMode(m => m === 'dark' ? 'light' : 'dark'); window.location.reload(); }} aria-label="toggle theme">
           {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
         </IconButton>
       </Box>
 
-      <Box sx={{ display: 'flex', gap: 2, mt: 1, alignItems: 'center' }}>
-        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-          <Box sx={{ color: 'text.secondary', fontSize: 12, mb: 0.5 }}>Engineer Name</Box>
-          <TextField size="small" value={engineerName || ''} onChange={e => setEngineerName(e.target.value)} sx={{ minWidth: 220 }} />
+      <Box sx={{ 
+        display: 'flex', 
+        gap: 2, 
+        mt: 1, 
+        alignItems: 'center',
+        flexDirection: { xs: 'column', sm: 'row' },
+        width: '100%',
+        justifyContent: 'center'
+      }}>
+        <Box sx={{ display: 'flex', gap: 1, alignItems: 'center', flexDirection: { xs: 'column', sm: 'row' }, width: { xs: '100%', sm: 'auto' } }}>
+          <Box component="span" sx={{ 
+            color: 'text.secondary', 
+            fontSize: { xs: '0.875rem', sm: '1rem' },
+            textAlign: { xs: 'center', sm: 'left' },
+            minWidth: { xs: 'auto', sm: 'auto' }
+          }}>Engineer Name</Box>
+          <TextField size="small" value={engineerName || ''} onChange={e => setEngineerName(e.target.value)} sx={{ minWidth: { xs: '100%', sm: 220 }, width: { xs: '100%', sm: 'auto' } }} />
         </Box>
-        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-          <Box sx={{ color: 'text.secondary', fontSize: 12, mb: 0.5 }}>PAV Date</Box>
-          <TextField size="small" type="date" value={defaultPavDate} onChange={e => setDefaultPavDate(e.target.value)} InputLabelProps={{ shrink: true }} sx={{ minWidth: 160 }} />
+        <Box sx={{ display: 'flex', gap: 1, alignItems: 'center', flexDirection: { xs: 'column', sm: 'row' }, width: { xs: '100%', sm: 'auto' } }}>
+          <Box component="span" sx={{ 
+            color: 'text.secondary', 
+            fontSize: { xs: '0.875rem', sm: '1rem' },
+            textAlign: { xs: 'center', sm: 'left' },
+            minWidth: { xs: 'auto', sm: 'auto' }
+          }}>PAV Date</Box>
+          <TextField size="small" type="date" value={defaultPavDate} onChange={e => setDefaultPavDate(e.target.value)} InputLabelProps={{ shrink: true }} sx={{ minWidth: { xs: '100%', sm: 160 }, width: { xs: '100%', sm: 'auto' } }} />
         </Box>
       </Box>
     </Box>
