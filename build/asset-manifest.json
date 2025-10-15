@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/PAV-Tool/static/css/main.20d3b19c.css",
+    "main.js": "/PAV-Tool/static/js/main.d6f37455.js",
+    "index.html": "/PAV-Tool/index.html",
+    "main.20d3b19c.css.map": "/PAV-Tool/static/css/main.20d3b19c.css.map",
+    "main.d6f37455.js.map": "/PAV-Tool/static/js/main.d6f37455.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.20d3b19c.css",
+    "static/js/main.d6f37455.js"
+  ]
+}

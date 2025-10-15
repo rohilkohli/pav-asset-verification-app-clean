@@ -1,0 +1,21 @@
+.MuiTable-root, .MuiTableContainer-root { border-collapse: collapse !important; }
+
+/* Make sure each cell shows a border for a clear grid */
+.MuiTableCell-root {
+  border: 1px solid rgba(255,255,255,0.06) !important;
+  padding: 6px 10px !important;
+  vertical-align: middle !important;
+  color: var(--text-primary);
+}
+
+.MuiTableHead-root .MuiTableCell-root {
+  background: rgba(255,255,255,0.04) !important;
+  font-weight: 600 !important;
+}
+
+/* subtle zebra */
+.MuiTableRow-root:nth-of-type(even) .MuiTableCell-root {
+  background: rgba(255,255,255,0.02) !important;
+}
+
+.asset-table { width: 100%; overflow: auto; }

@@ -1,0 +1,43 @@
+:root{
+  --bg-default:#0b0b0d;
+  --bg-paper:#161616;
+  --text-primary:#e6eef8;
+  --text-secondary:#9aa6b2;
+  --muted:#6f7b83;
+  --card-border:rgba(255,255,255,0.06);
+}
+
+/* When the app is in light mode, set lighter backgrounds and darker card borders for contrast */
+.theme-light {
+  --bg-default: #f6f9fc;
+  --bg-paper: #ffffff;
+  --text-primary: #0b2a45;
+  --text-secondary: #49545b;
+  --muted: #6c757d;
+  --card-border: rgba(0,0,0,0.12);
+}
+
+body {
+  background: var(--bg-default);
+  color: var(--text-primary);
+  font-family: 'Roboto', Arial, sans-serif;
+}
+
+.container {
+  margin: 2rem auto;
+}
+
+.asset-table th, .asset-table td {
+  padding: 0.5rem;
+  color: var(--text-primary);
+}
+
+.filter-bar {
+  margin-bottom: 1rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.modal {
+  z-index: 1300;
+}
