@@ -103,7 +103,7 @@ function UploadForm() {
       startIcon={<UploadFileIcon />}
       color="primary"
       size="small"
-      sx={{ minWidth: 170, textTransform: 'none' }}
+      sx={{ minWidth: { xs: 140, sm: 170 }, textTransform: 'none', fontSize: { xs: '0.8rem', sm: '0.875rem' } }}
     >
       Upload Excel/CSV
       <input type="file" accept=".csv, .xlsx" hidden onChange={handleFileUpload} />

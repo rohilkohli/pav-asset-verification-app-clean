@@ -21,7 +21,7 @@ function DownloadButton() {
       color="success"
       startIcon={<DownloadIcon />}
       size="small"
-      sx={{ minWidth: 170, textTransform: 'none' }}
+      sx={{ minWidth: { xs: 140, sm: 170 }, textTransform: 'none', fontSize: { xs: '0.8rem', sm: '0.875rem' } }}
       onClick={handleDownload}
       disabled={!assets.length}
     >

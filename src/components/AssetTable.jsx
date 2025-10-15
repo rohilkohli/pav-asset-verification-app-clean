@@ -182,9 +182,17 @@ function AssetTable() {
 
   return (
     <>
-  <Paper sx={{ p: 1, mb: 2, display: 'flex', gap: 1, alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
+  <Paper sx={{ 
+    p: { xs: 1.5, sm: 2 }, 
+    mb: 2, 
+    display: 'flex', 
+    gap: { xs: 1, sm: 1.5 }, 
+    alignItems: 'center', 
+    flexWrap: 'wrap', 
+    justifyContent: 'center' 
+  }}>
         {/* Left: Asset Type / Make / PAV Status */}
-  <FormControl sx={{ minWidth: 140 }}>
+  <FormControl size="small" sx={{ minWidth: { xs: '100%', sm: 140 }, maxWidth: { xs: '100%', sm: 'none' } }}>
           <InputLabel>Asset Type</InputLabel>
           <Select
             value={effectiveFilters.assetType || ''}
@@ -196,7 +204,7 @@ function AssetTable() {
           </Select>
         </FormControl>
 
-  <FormControl sx={{ minWidth: 120 }}>
+  <FormControl size="small" sx={{ minWidth: { xs: '100%', sm: 120 }, maxWidth: { xs: '100%', sm: 'none' } }}>
           <InputLabel>Make</InputLabel>
           <Select
             value={effectiveFilters.make || ''}
@@ -208,7 +216,7 @@ function AssetTable() {
           </Select>
         </FormControl>
 
-  <FormControl sx={{ minWidth: 120 }}>
+  <FormControl size="small" sx={{ minWidth: { xs: '100%', sm: 120 }, maxWidth: { xs: '100%', sm: 'none' } }}>
           <InputLabel>PAV Status</InputLabel>
           <Select
             value={effectiveFilters.pavStatus || ''}
@@ -223,7 +231,7 @@ function AssetTable() {
     {/* centered layout; no spacer */}
 
         {/* Right: Sort By / Direction */}
-  <FormControl sx={{ minWidth: 140 }}>
+  <FormControl size="small" sx={{ minWidth: { xs: '100%', sm: 140 }, maxWidth: { xs: '100%', sm: 'none' } }}>
           <InputLabel>Sort By</InputLabel>
           <Select value={sortBy} label="Sort By" onChange={e => setSortBy(e.target.value)}>
             <MenuItem value="Asset Code">Asset Code</MenuItem>
@@ -233,7 +241,7 @@ function AssetTable() {
             <MenuItem value="Asset Type">Asset Type</MenuItem>
           </Select>
         </FormControl>
-  <FormControl sx={{ minWidth: 120 }}>
+  <FormControl size="small" sx={{ minWidth: { xs: '100%', sm: 120 }, maxWidth: { xs: '100%', sm: 'none' } }}>
           <InputLabel>Direction</InputLabel>
           <Select value={sortDir} label="Direction" onChange={e => setSortDir(e.target.value)}>
             <MenuItem value="asc">Ascending</MenuItem>
@@ -250,7 +258,7 @@ function AssetTable() {
           </Box>
         </Paper>
       ) : (
-        <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 2 }}>
+        <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(auto-fill, minmax(300px, 1fr))' }, gap: 2 }}>
           {displayed.map((asset, idx) => (
             <Card
               key={asset['_pav_id'] || asset['Asset Code'] || asset['Serial Number'] || idx}

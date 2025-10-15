@@ -117,10 +117,10 @@ function EditModal({ asset, idx, onClose }) {
 
   // UI
   return (
-    <Dialog open onClose={onClose}>
+    <Dialog open onClose={onClose} fullWidth maxWidth="sm" PaperProps={{ sx: { m: { xs: 2, sm: 3 } } }}>
       <DialogTitle>Edit Asset</DialogTitle>
       <DialogContent>
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, minWidth: 300 }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, minWidth: { xs: '100%', sm: 300 }, pt: 1 }}>
           <FormControl fullWidth>
             <InputLabel>Asset Status</InputLabel>
             <Select
@@ -196,7 +196,7 @@ function EditModal({ asset, idx, onClose }) {
         <Button onClick={handleSave} color="primary" variant="contained">Save</Button>
       </DialogActions>
       {/* Confirmation dialog */}
-      <Dialog open={confirmOpen} onClose={() => setConfirmOpen(false)}>
+      <Dialog open={confirmOpen} onClose={() => setConfirmOpen(false)} PaperProps={{ sx: { m: { xs: 2, sm: 3 } } }}>
         <DialogTitle>Confirm Save</DialogTitle>
         <DialogContent>Are you sure you want to save these changes?</DialogContent>
         <DialogActions>
