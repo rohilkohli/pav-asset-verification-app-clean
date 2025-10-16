@@ -114,8 +114,16 @@ function TopButtons({ mode, setMode }) {
             fontSize: { xs: '0.875rem', sm: '1rem' },
             textAlign: { xs: 'center', sm: 'left' },
             minWidth: { xs: 'auto', sm: 'auto' }
-          }}>Engineer Name</Box>
-          <TextField size="small" value={engineerName || ''} onChange={e => setEngineerName(e.target.value)} sx={{ minWidth: { xs: '100%', sm: 220 }, width: { xs: '100%', sm: 'auto' } }} />
+          }}>Engineer Name *</Box>
+          <TextField 
+            size="small" 
+            value={engineerName || ''} 
+            onChange={e => setEngineerName(e.target.value)} 
+            required 
+            error={!engineerName}
+            helperText={!engineerName ? 'Engineer name is required' : ''}
+            sx={{ minWidth: { xs: '100%', sm: 220 }, width: { xs: '100%', sm: 'auto' } }} 
+          />
         </Box>
         <Box sx={{ display: 'flex', gap: 1, alignItems: 'center', flexDirection: { xs: 'column', sm: 'row' }, width: { xs: '100%', sm: 'auto' } }}>
           <Box component="span" sx={{ 

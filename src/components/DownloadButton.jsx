@@ -29,7 +29,7 @@ function DownloadButton() {
       size="small"
       sx={{ minWidth: { xs: 140, sm: 170 }, textTransform: 'none', fontSize: { xs: '0.8rem', sm: '0.875rem' } }}
       onClick={handleDownload}
-      disabled={!assets.length}
+      disabled={!assets.length || !engineerName || !engineerName.trim()}
     >
       Download Updated Sheet
     </Button>
