@@ -17,18 +17,9 @@ const availabilityOptions = [
 function EditModal({ asset, idx, onClose }) {
   const { assets, setAssets } = useContext(AssetContext);
 
-  // helper: format today as yyyy-mm-dd
-  const todayIso = (() => {
-    const d = new Date();
-    const yyyy = d.getFullYear();
-    const mm = String(d.getMonth() + 1).padStart(2, '0');
-    const dd = String(d.getDate()).padStart(2, '0');
-    return `${yyyy}-${mm}-${dd}`;
-  })();
-
   // Helper to parse possible Excel serials / Date objects / strings into an ISO yyyy-mm-dd string
   function toIsoDateString(src) {
-    if (src == null || src === '') return todayIso;
+    if (src == null || src === '') return '';
     // Excel numeric serial
     if (typeof src === 'number' && !isNaN(src)) {
       const ms = Math.round((src - 25569) * 86400 * 1000);
@@ -39,7 +30,7 @@ function EditModal({ asset, idx, onClose }) {
         const dd = String(dt.getDate()).padStart(2, '0');
         return `${yyyy}-${mm}-${dd}`;
       }
-      return todayIso;
+      return '';
     }
     // Date object
     if (Object.prototype.toString.call(src) === '[object Date]') {
@@ -49,7 +40,7 @@ function EditModal({ asset, idx, onClose }) {
         const dd = String(src.getDate()).padStart(2, '0');
         return `${yyyy}-${mm}-${dd}`;
       }
-      return todayIso;
+      return '';
     }
     // String: try to parse
     const dt = new Date(src);
@@ -60,10 +51,10 @@ function EditModal({ asset, idx, onClose }) {
       return `${yyyy}-${mm}-${dd}`;
     }
     // fallback
-    return todayIso;
+    return '';
   }
 
-  // initial values (default date to today if missing or invalid)
+  // initial values (preserve empty PAV dates as empty, convert valid dates to yyyy-mm-dd)
   const initialDate = toIsoDateString(asset['PAV Date of visit (DD-MMM-YYYY i.e: 15-Mar-2021)']);
 
   const [form, setForm] = useState({
