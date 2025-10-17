@@ -331,7 +331,14 @@ function AssetTable() {
               <Typography variant="body2">Make: <strong>{asset['Make']}</strong></Typography>
               <Typography variant="body2">Model: {asset['Model']}</Typography>
               <Typography variant="body2">S/N: {asset['Serial Number']}</Typography>
-              <Typography variant="body2">PAV Date: <strong>{(asset['_pav_edited'] === true && defaultPavDate && asset['PAV Status'] === 'Available') ? defaultPavDate : (asset['PAV Date of visit (DD-MMM-YYYY i.e: 15-Mar-2021)'] || '')}</strong></Typography>
+              <Typography variant="body2">PAV Date: <strong>{(() => {
+                const existingDate = asset['PAV Date of visit (DD-MMM-YYYY i.e: 15-Mar-2021)'];
+                const hasExistingDate = existingDate && existingDate.trim() !== '';
+                // Show existing date if present, otherwise show default date only if newly verified
+                if (hasExistingDate) return existingDate;
+                if (asset['_pav_edited'] === true && defaultPavDate && asset['PAV Status'] === 'Available') return defaultPavDate;
+                return '';
+              })()}</strong></Typography>
               <Typography variant="body2">Availability: {asset['Asset Availability Remarks']}</Typography>
               <Typography variant="body2">Branch Code: {asset['New Branch Code']}</Typography>
               <Typography variant="body2">Disposal Ticket: {asset['Disposal Ticket']}</Typography>
