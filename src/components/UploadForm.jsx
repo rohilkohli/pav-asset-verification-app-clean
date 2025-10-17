@@ -69,8 +69,8 @@ function UploadForm() {
           const dd = String(dt.getDate()).padStart(2, '0');
           r['PAV Date of visit (DD-MMM-YYYY i.e: 15-Mar-2021)'] = `${yyyy}-${mm}-${dd}`;
         } else {
-          // If missing or invalid, default to today's date (editable by user)
-          r['PAV Date of visit (DD-MMM-YYYY i.e: 15-Mar-2021)'] = isoToday;
+          // If missing or invalid, keep it empty. PAV date should only be populated when verification is done by engineer.
+          r['PAV Date of visit (DD-MMM-YYYY i.e: 15-Mar-2021)'] = '';
         }
 
         // Defaults for fields used by UI/validation
