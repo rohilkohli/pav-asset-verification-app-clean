@@ -32,10 +32,11 @@ export function AssetProvider({ children }) {
   const saveChanges = () => {
     try {
       // Before persisting, apply Engineer Name and default PAV date to assets
-      // where verification has been done (PAV Status === 'Available')
+      // that have been edited by the engineer (marked with _pav_edited flag)
       const toSave = (assets || []).map(a => {
         const copy = { ...a };
-        if ((copy['PAV Status'] || '').toLowerCase() === 'available') {
+        // Only apply Engineer Name and PAV Date to assets that have been edited
+        if (copy['_pav_edited'] === true) {
           if (engineerName) copy['Engineer Name'] = engineerName;
           if (defaultPavDate) copy['PAV Date of visit (DD-MMM-YYYY i.e: 15-Mar-2021)'] = defaultPavDate;
         }
