@@ -18,7 +18,7 @@ const availabilityRemarksOptions = [
 
 function AssetTable() {
   const ctx = useContext(AssetContext);
-  const { assets, setAssets, filters: ctxFilters = {}, search, setFilters, searchCriteria, defaultPavDate, suppressAutoDisplay, setSuppressAutoDisplay } = ctx;
+  const { assets, setAssets, filters: ctxFilters = {}, search, setFilters, searchCriteria, defaultPavDate, suppressAutoDisplay, setSuppressAutoDisplay, engineerName } = ctx;
 
   // Fallback local filters if context does not expose setFilters
   const [localFilters, setLocalFilters] = useState(ctxFilters || {});
@@ -331,12 +331,12 @@ function AssetTable() {
               <Typography variant="body2">Make: <strong>{asset['Make']}</strong></Typography>
               <Typography variant="body2">Model: {asset['Model']}</Typography>
               <Typography variant="body2">S/N: {asset['Serial Number']}</Typography>
-              <Typography variant="body2">PAV Date: <strong>{((asset['PAV Status'] || '').toLowerCase() === 'available' && defaultPavDate) ? defaultPavDate : (asset['PAV Date of visit (DD-MMM-YYYY i.e: 15-Mar-2021)'] || '')}</strong></Typography>
+              <Typography variant="body2">PAV Date: <strong>{(asset['_pav_edited'] === true && defaultPavDate) ? defaultPavDate : (asset['PAV Date of visit (DD-MMM-YYYY i.e: 15-Mar-2021)'] || '')}</strong></Typography>
               <Typography variant="body2">Availability: {asset['Asset Availability Remarks']}</Typography>
               <Typography variant="body2">Branch Code: {asset['New Branch Code']}</Typography>
               <Typography variant="body2">Disposal Ticket: {asset['Disposal Ticket']}</Typography>
               {asset['Comment'] ? <Typography variant="body2">Comment: {asset['Comment']}</Typography> : null}
-              {asset['Engineer Name'] ? <Typography variant="body2" sx={{ mt: 1, color: 'text.secondary' }}>Verified by: {asset['Engineer Name']}</Typography> : null}
+              {(asset['Engineer Name'] || (asset['_pav_edited'] === true && engineerName)) ? <Typography variant="body2" sx={{ mt: 1, color: 'text.secondary' }}>Verified by: {asset['Engineer Name'] || engineerName}</Typography> : null}
             </CardContent>
             <CardActions>
               <Button size="small" onClick={() => openEdit(asset)}>Edit</Button>

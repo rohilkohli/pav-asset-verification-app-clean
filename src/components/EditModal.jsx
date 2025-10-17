@@ -110,6 +110,8 @@ function EditModal({ asset, idx, onClose }) {
     updated[idx]['Asset Availability Remarks'] = form.remarks;
     updated[idx]['New Branch Code'] = isBranchCodeMandatory ? form.branchCode : "N/A";
     updated[idx]['Disposal Ticket'] = isDisposalMandatory ? form.disposalTicket : "N/A";
+    // Mark this asset as edited by engineer so PAV Date and Engineer Name will be applied on save
+    updated[idx]['_pav_edited'] = true;
     setAssets(updated);
     setConfirmOpen(false);
     onClose();
