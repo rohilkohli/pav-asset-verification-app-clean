@@ -35,10 +35,16 @@ export function AssetProvider({ children }) {
       // that have been edited by the engineer (marked with _pav_edited flag)
       const toSave = (assets || []).map(a => {
         const copy = { ...a };
-        // Only apply Engineer Name and PAV Date to assets that have been edited
+        // Only apply Engineer Name and PAV Date to assets that have been edited AND verified (PAV Status = "Available")
         if (copy['_pav_edited'] === true) {
           if (engineerName) copy['Engineer Name'] = engineerName;
-          if (defaultPavDate) copy['PAV Date of visit (DD-MMM-YYYY i.e: 15-Mar-2021)'] = defaultPavDate;
+          // Only apply PAV date if the asset has been verified (PAV Status is "Available") 
+          // AND the asset doesn't already have a PAV date (preserve existing dates)
+          const existingPavDate = copy['PAV Date of visit (DD-MMM-YYYY i.e: 15-Mar-2021)'];
+          const hasExistingDate = existingPavDate && existingPavDate.trim() !== '';
+          if (defaultPavDate && copy['PAV Status'] === 'Available' && !hasExistingDate) {
+            copy['PAV Date of visit (DD-MMM-YYYY i.e: 15-Mar-2021)'] = defaultPavDate;
+          }
         }
         return copy;
       });
