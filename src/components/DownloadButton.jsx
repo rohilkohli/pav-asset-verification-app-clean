@@ -24,10 +24,23 @@ function DownloadButton() {
   return (
     <Button
       variant="contained"
-      color="success"
       startIcon={<DownloadIcon />}
       size="small"
-      sx={{ minWidth: { xs: 140, sm: 170 }, textTransform: 'none', fontSize: { xs: '0.8rem', sm: '0.875rem' } }}
+      sx={{ 
+        minWidth: { xs: 140, sm: 170 }, 
+        textTransform: 'none', 
+        fontSize: { xs: '0.8rem', sm: '0.875rem' },
+        background: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+        color: '#000',
+        fontWeight: 600,
+        '&:hover': {
+          background: 'linear-gradient(135deg, #00f2fe 0%, #4facfe 100%)',
+        },
+        '&:disabled': {
+          background: 'rgba(255, 255, 255, 0.12)',
+          color: 'rgba(255, 255, 255, 0.3)',
+        }
+      }}
       onClick={handleDownload}
       disabled={!assets.length || !engineerName || !engineerName.trim()}
     >

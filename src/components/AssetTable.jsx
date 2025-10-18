@@ -199,12 +199,26 @@ function AssetTable() {
     gap: { xs: 1, sm: 1.5 }, 
     alignItems: 'center', 
     flexWrap: 'wrap', 
-    justifyContent: 'space-between' 
+    justifyContent: 'space-between',
+    background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%)',
+    backdropFilter: 'blur(20px)',
+    border: '1px solid rgba(255, 255, 255, 0.18)',
+    borderRadius: 3,
   }}>
         <Box sx={{ display: 'flex', gap: { xs: 1, sm: 1.5 }, alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center', flex: 1 }}>
         {/* Filters section with label */}
         <Box sx={{ display: 'flex', gap: { xs: 1, sm: 1.5 }, alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center', width: { xs: '100%', sm: 'auto' } }}>
-  <FormControl size="small" sx={{ minWidth: { xs: '100%', sm: 140 }, maxWidth: { xs: '100%', sm: 'none' } }}>
+  <FormControl size="small" sx={{ 
+    minWidth: { xs: '100%', sm: 140 }, 
+    maxWidth: { xs: '100%', sm: 'none' },
+    '& .MuiOutlinedInput-root': {
+      background: 'rgba(255, 255, 255, 0.05)',
+      transition: 'all 0.3s ease',
+      '&:hover': {
+        background: 'rgba(255, 255, 255, 0.08)',
+      }
+    }
+  }}>
           <InputLabel>Asset Type</InputLabel>
           <Select
             value={effectiveFilters.assetType || ''}
@@ -216,7 +230,13 @@ function AssetTable() {
           </Select>
         </FormControl>
 
-  <FormControl size="small" sx={{ minWidth: { xs: '100%', sm: 120 }, maxWidth: { xs: '100%', sm: 'none' } }}>
+  <FormControl size="small" sx={{ 
+    minWidth: { xs: '100%', sm: 120 }, 
+    maxWidth: { xs: '100%', sm: 'none' },
+    '& .MuiOutlinedInput-root': {
+      background: 'rgba(255, 255, 255, 0.05)',
+    }
+  }}>
           <InputLabel>Make</InputLabel>
           <Select
             value={effectiveFilters.make || ''}
@@ -228,7 +248,13 @@ function AssetTable() {
           </Select>
         </FormControl>
 
-  <FormControl size="small" sx={{ minWidth: { xs: '100%', sm: 120 }, maxWidth: { xs: '100%', sm: 'none' } }}>
+  <FormControl size="small" sx={{ 
+    minWidth: { xs: '100%', sm: 120 }, 
+    maxWidth: { xs: '100%', sm: 'none' },
+    '& .MuiOutlinedInput-root': {
+      background: 'rgba(255, 255, 255, 0.05)',
+    }
+  }}>
           <InputLabel>PAV Status</InputLabel>
           <Select
             value={effectiveFilters.pavStatus || ''}
@@ -248,7 +274,13 @@ function AssetTable() {
             fontSize: { xs: '0.875rem', sm: '1rem' },
             display: { xs: 'none', sm: 'block' }
           }}>Sort By</Box>
-  <FormControl size="small" sx={{ minWidth: { xs: '100%', sm: 140 }, maxWidth: { xs: '100%', sm: 'none' } }}>
+  <FormControl size="small" sx={{ 
+    minWidth: { xs: '100%', sm: 140 }, 
+    maxWidth: { xs: '100%', sm: 'none' },
+    '& .MuiOutlinedInput-root': {
+      background: 'rgba(255, 255, 255, 0.05)',
+    }
+  }}>
           <InputLabel>Sort By</InputLabel>
           <Select value={sortBy} label="Sort By" onChange={e => setSortBy(e.target.value)}>
             <MenuItem value="Asset Code">Asset Code</MenuItem>
@@ -263,7 +295,13 @@ function AssetTable() {
             fontSize: { xs: '0.875rem', sm: '1rem' },
             display: { xs: 'none', sm: 'block' }
           }}>Direction</Box>
-  <FormControl size="small" sx={{ minWidth: { xs: '100%', sm: 120 }, maxWidth: { xs: '100%', sm: 'none' } }}>
+  <FormControl size="small" sx={{ 
+    minWidth: { xs: '100%', sm: 120 }, 
+    maxWidth: { xs: '100%', sm: 'none' },
+    '& .MuiOutlinedInput-root': {
+      background: 'rgba(255, 255, 255, 0.05)',
+    }
+  }}>
           <InputLabel>Direction</InputLabel>
           <Select value={sortDir} label="Direction" onChange={e => setSortDir(e.target.value)}>
             <MenuItem value="asc">Ascending</MenuItem>
@@ -283,8 +321,8 @@ function AssetTable() {
           width: { xs: '100%', md: 'auto' },
           mt: { xs: 1, md: 0 }
         }}>
-          <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: 500 }}>
-            Counts:
+          <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: 600 }}>
+            Status:
           </Typography>
           {Object.entries(pavStatusCounts).map(([status, count]) => (
             <Chip 
@@ -292,61 +330,204 @@ function AssetTable() {
               label={`${status}: ${count}`}
               size="small"
               color={(status || '').toLowerCase() === 'available' ? 'success' : 'default'}
-              sx={{ fontWeight: 500 }}
+              sx={{ 
+                fontWeight: 600,
+                background: (status || '').toLowerCase() === 'available' 
+                  ? 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)'
+                  : 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
+                color: '#000',
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
+              }}
             />
           ))}
         </Box>
       </Paper>
 
       {shouldSuppress ? (
-        <Paper sx={{ p: 3, textAlign: 'center', width: '100%', maxWidth: 640, mx: 'auto' }}>
-          <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>Upload successful — no filters/search active. Apply a search or filters to reduce the result set, or show all items.</Typography>
+        <Paper sx={{ 
+          p: 3, 
+          textAlign: 'center', 
+          width: '100%', 
+          maxWidth: 640, 
+          mx: 'auto',
+          background: 'linear-gradient(135deg, rgba(79, 172, 254, 0.1) 0%, rgba(0, 242, 254, 0.1) 100%)',
+          backdropFilter: 'blur(20px)',
+          border: '1px solid rgba(79, 172, 254, 0.3)',
+          borderRadius: 3,
+        }}>
+          <Typography variant="body1" color="text.primary" sx={{ mb: 2, fontWeight: 500 }}>
+            Upload successful — no filters/search active. Apply a search or filters to reduce the result set, or show all items.
+          </Typography>
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-            <Button variant="outlined" onClick={() => { try { if (setSuppressAutoDisplay) setSuppressAutoDisplay(false); } catch (e) {} }} size="medium">Show all</Button>
+            <Button 
+              variant="contained" 
+              onClick={() => { try { if (setSuppressAutoDisplay) setSuppressAutoDisplay(false); } catch (e) {} }} 
+              size="medium"
+              sx={{
+                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                '&:hover': {
+                  background: 'linear-gradient(135deg, #764ba2 0%, #667eea 100%)',
+                }
+              }}
+            >
+              Show all
+            </Button>
           </Box>
         </Paper>
       ) : (
-        <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(auto-fill, minmax(300px, 1fr))' }, gap: 2 }}>
+        <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(auto-fill, minmax(320px, 1fr))' }, gap: 3 }}>
           {displayed.map((asset, idx) => (
             <Card
               key={asset['_pav_id'] || asset['Asset Code'] || asset['Serial Number'] || idx}
             variant="outlined"
             sx={{
               bgcolor: 'background.paper',
-              border: '1px solid var(--card-border)',
-              borderRadius: 2,
-              transition: 'transform 150ms ease, box-shadow 150ms ease',
-              '&:hover': { transform: 'translateY(-4px)', boxShadow: 6 }
+              border: '1px solid rgba(255, 255, 255, 0.18)',
+              borderRadius: 3,
+              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+              position: 'relative',
+              overflow: 'hidden',
+              backdropFilter: 'blur(10px)',
+              '&:hover': { 
+                transform: 'translateY(-8px) scale(1.02)', 
+                boxShadow: '0 16px 48px 0 rgba(31, 38, 135, 0.5)',
+                border: '1px solid rgba(102, 126, 234, 0.5)',
+              },
+              '&::before': {
+                content: '""',
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                height: '3px',
+                background: (asset['PAV Status'] || '').toLowerCase() === 'available'
+                  ? 'linear-gradient(90deg, #43e97b 0%, #38f9d7 100%)'
+                  : 'linear-gradient(90deg, #fa709a 0%, #fee140 100%)',
+              }
             }}
           >
-            <CardContent>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
-                <Box>
-                  <Typography variant="subtitle2" color="text.secondary">{asset['Asset Type']}</Typography>
-                  <Typography variant="h6">{asset['Asset Code']}</Typography>
+            <CardContent sx={{ pb: 1 }}>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
+                <Box sx={{ flex: 1 }}>
+                  <Typography variant="caption" sx={{ 
+                    color: 'text.secondary', 
+                    textTransform: 'uppercase', 
+                    letterSpacing: '0.05em',
+                    fontWeight: 600,
+                    fontSize: '0.7rem'
+                  }}>
+                    {asset['Asset Type']}
+                  </Typography>
+                  <Typography variant="h6" sx={{ 
+                    fontWeight: 700, 
+                    fontSize: '1.1rem',
+                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                    backgroundClip: 'text',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    mt: 0.5
+                  }}>
+                    {asset['Asset Code']}
+                  </Typography>
                 </Box>
-                <Chip label={asset['PAV Status'] || 'Unknown'} color={(asset['PAV Status'] || '').toLowerCase() === 'available' ? 'success' : 'default'} size="small" />
+                <Chip 
+                  label={asset['PAV Status'] || 'Unknown'} 
+                  size="small"
+                  sx={{
+                    background: (asset['PAV Status'] || '').toLowerCase() === 'available' 
+                      ? 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)'
+                      : 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
+                    color: '#000',
+                    fontWeight: 700,
+                    fontSize: '0.7rem',
+                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
+                  }}
+                />
               </Box>
 
-              <Typography variant="body2">Make: <strong>{asset['Make']}</strong></Typography>
-              <Typography variant="body2">Model: {asset['Model']}</Typography>
-              <Typography variant="body2">S/N: {asset['Serial Number']}</Typography>
-              <Typography variant="body2">PAV Date: <strong>{(() => {
-                const existingDate = asset['PAV Date of visit (DD-MMM-YYYY i.e: 15-Mar-2021)'];
-                const hasExistingDate = existingDate && existingDate.trim() !== '';
-                // Show existing date if present, otherwise show default date only if newly verified
-                if (hasExistingDate) return existingDate;
-                if (asset['_pav_edited'] === true && defaultPavDate && asset['PAV Status'] === 'Available') return defaultPavDate;
-                return '';
-              })()}</strong></Typography>
-              <Typography variant="body2">Availability: {asset['Asset Availability Remarks']}</Typography>
-              <Typography variant="body2">Branch Code: {asset['New Branch Code']}</Typography>
-              <Typography variant="body2">Disposal Ticket: {asset['Disposal Ticket']}</Typography>
-              {asset['Comment'] ? <Typography variant="body2">Comment: {asset['Comment']}</Typography> : null}
-              {(asset['Engineer Name'] || (asset['_pav_edited'] === true && engineerName)) ? <Typography variant="body2" sx={{ mt: 1, color: 'text.secondary' }}>Verified by: {asset['Engineer Name'] || engineerName}</Typography> : null}
+              <Box sx={{ 
+                display: 'grid', 
+                gap: 1,
+                '& > *': {
+                  borderBottom: '1px solid rgba(255, 255, 255, 0.05)',
+                  pb: 0.5
+                }
+              }}>
+                <Typography variant="body2" sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <span style={{ color: 'var(--text-secondary)', fontWeight: 500 }}>Make:</span>
+                  <strong>{asset['Make']}</strong>
+                </Typography>
+                <Typography variant="body2" sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <span style={{ color: 'var(--text-secondary)', fontWeight: 500 }}>Model:</span>
+                  <span>{asset['Model']}</span>
+                </Typography>
+                <Typography variant="body2" sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <span style={{ color: 'var(--text-secondary)', fontWeight: 500 }}>S/N:</span>
+                  <span>{asset['Serial Number']}</span>
+                </Typography>
+                <Typography variant="body2" sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <span style={{ color: 'var(--text-secondary)', fontWeight: 500 }}>PAV Date:</span>
+                  <strong>{(() => {
+                    const existingDate = asset['PAV Date of visit (DD-MMM-YYYY i.e: 15-Mar-2021)'];
+                    const hasExistingDate = existingDate && existingDate.trim() !== '';
+                    if (hasExistingDate) return existingDate;
+                    if (asset['_pav_edited'] === true && defaultPavDate && asset['PAV Status'] === 'Available') return defaultPavDate;
+                    return '—';
+                  })()}</strong>
+                </Typography>
+                <Typography variant="body2" sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <span style={{ color: 'var(--text-secondary)', fontWeight: 500 }}>Availability:</span>
+                  <span style={{ fontSize: '0.75rem' }}>{asset['Asset Availability Remarks'] || '—'}</span>
+                </Typography>
+                {asset['New Branch Code'] && asset['New Branch Code'] !== 'N/A' && (
+                  <Typography variant="body2" sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <span style={{ color: 'var(--text-secondary)', fontWeight: 500 }}>Branch:</span>
+                    <span>{asset['New Branch Code']}</span>
+                  </Typography>
+                )}
+                {asset['Disposal Ticket'] && asset['Disposal Ticket'] !== 'N/A' && (
+                  <Typography variant="body2" sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <span style={{ color: 'var(--text-secondary)', fontWeight: 500 }}>Disposal:</span>
+                    <span>{asset['Disposal Ticket']}</span>
+                  </Typography>
+                )}
+                {asset['Comment'] && (
+                  <Typography variant="body2" sx={{ pt: 1 }}>
+                    <span style={{ color: 'var(--text-secondary)', fontWeight: 500, fontSize: '0.75rem' }}>Comment:</span>
+                    <br />
+                    <span style={{ fontSize: '0.8rem', fontStyle: 'italic' }}>{asset['Comment']}</span>
+                  </Typography>
+                )}
+              </Box>
+
+              {(asset['Engineer Name'] || (asset['_pav_edited'] === true && engineerName)) && (
+                <Typography variant="caption" sx={{ 
+                  mt: 2, 
+                  display: 'block',
+                  color: 'text.secondary',
+                  fontStyle: 'italic',
+                  fontSize: '0.7rem'
+                }}>
+                  ✓ Verified by: {asset['Engineer Name'] || engineerName}
+                </Typography>
+              )}
             </CardContent>
-            <CardActions>
-              <Button size="small" onClick={() => openEdit(asset)}>Edit</Button>
+            <CardActions sx={{ pt: 0, pb: 2, px: 2 }}>
+              <Button 
+                size="small" 
+                onClick={() => openEdit(asset)}
+                sx={{
+                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                  color: '#fff',
+                  fontWeight: 600,
+                  width: '100%',
+                  '&:hover': {
+                    background: 'linear-gradient(135deg, #764ba2 0%, #667eea 100%)',
+                  }
+                }}
+              >
+                Edit Details
+              </Button>
             </CardActions>
           </Card>
           ))}
