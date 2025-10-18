@@ -110,11 +110,39 @@ function EditModal({ asset, idx, onClose }) {
 
   // UI
   return (
-    <Dialog open onClose={onClose} fullWidth maxWidth="sm" PaperProps={{ sx: { m: { xs: 2, sm: 3 } } }}>
-      <DialogTitle>Edit Asset</DialogTitle>
+    <Dialog 
+      open 
+      onClose={onClose} 
+      fullWidth 
+      maxWidth="sm" 
+      PaperProps={{ 
+        sx: { 
+          m: { xs: 2, sm: 3 },
+          background: 'linear-gradient(135deg, rgba(22, 22, 22, 0.95) 0%, rgba(22, 22, 22, 0.98) 100%)',
+          backdropFilter: 'blur(20px)',
+          border: '1px solid rgba(255, 255, 255, 0.18)',
+          borderRadius: 3,
+          boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
+        } 
+      }}
+    >
+      <DialogTitle sx={{ 
+        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        backgroundClip: 'text',
+        WebkitBackgroundClip: 'text',
+        WebkitTextFillColor: 'transparent',
+        fontWeight: 700,
+        fontSize: '1.5rem'
+      }}>
+        Edit Asset Details
+      </DialogTitle>
       <DialogContent>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, minWidth: { xs: '100%', sm: 300 }, pt: 1 }}>
-          <FormControl fullWidth>
+          <FormControl fullWidth sx={{
+            '& .MuiOutlinedInput-root': {
+              background: 'rgba(255, 255, 255, 0.05)',
+            }
+          }}>
             <InputLabel>Asset Status</InputLabel>
             <Select
               label="Asset Status"
@@ -126,7 +154,11 @@ function EditModal({ asset, idx, onClose }) {
               ))}
             </Select>
           </FormControl>
-          <FormControl fullWidth>
+          <FormControl fullWidth sx={{
+            '& .MuiOutlinedInput-root': {
+              background: 'rgba(255, 255, 255, 0.05)',
+            }
+          }}>
             <InputLabel>PAV Status</InputLabel>
             <Select
               label="PAV Status"
@@ -145,8 +177,17 @@ function EditModal({ asset, idx, onClose }) {
             onChange={e => setForm(f => ({ ...f, pavDate: e.target.value }))}
             InputLabelProps={{ shrink: true }}
             fullWidth
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                background: 'rgba(255, 255, 255, 0.05)',
+              }
+            }}
           />
-          <FormControl fullWidth error={!!errors.remarks}>
+          <FormControl fullWidth error={!!errors.remarks} sx={{
+            '& .MuiOutlinedInput-root': {
+              background: 'rgba(255, 255, 255, 0.05)',
+            }
+          }}>
             <InputLabel>Asset Availability Remarks</InputLabel>
             <Select
               label="Asset Availability Remarks"
@@ -167,6 +208,11 @@ function EditModal({ asset, idx, onClose }) {
             required={isBranchCodeMandatory}
             error={!!errors.branchCode}
             helperText={isBranchCodeMandatory ? "Branch Code required for 'Available in different branch'" : ""}
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                background: 'rgba(255, 255, 255, 0.05)',
+              }
+            }}
           />
           <TextField
             label="Disposal Ticket"
@@ -181,20 +227,83 @@ function EditModal({ asset, idx, onClose }) {
             required={isDisposalMandatory}
             error={!!errors.disposalTicket}
                     helperText={isDisposalMandatory ? "Enter digits only (stored as RITMxxxxxxx)" : ""}
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                background: 'rgba(255, 255, 255, 0.05)',
+              }
+            }}
           />
         </Box>
       </DialogContent>
-      <DialogActions>
-        <Button onClick={onClose} color="secondary">Cancel</Button>
-        <Button onClick={handleSave} color="primary" variant="contained">Save</Button>
+      <DialogActions sx={{ p: 2, gap: 1 }}>
+        <Button 
+          onClick={onClose} 
+          sx={{
+            background: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
+            color: '#000',
+            fontWeight: 600,
+            '&:hover': {
+              background: 'linear-gradient(135deg, #fee140 0%, #fa709a 100%)',
+            }
+          }}
+        >
+          Cancel
+        </Button>
+        <Button 
+          onClick={handleSave} 
+          variant="contained"
+          sx={{
+            background: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
+            color: '#000',
+            fontWeight: 600,
+            '&:hover': {
+              background: 'linear-gradient(135deg, #38f9d7 0%, #43e97b 100%)',
+            }
+          }}
+        >
+          Save Changes
+        </Button>
       </DialogActions>
       {/* Confirmation dialog */}
-      <Dialog open={confirmOpen} onClose={() => setConfirmOpen(false)} PaperProps={{ sx: { m: { xs: 2, sm: 3 } } }}>
-        <DialogTitle>Confirm Save</DialogTitle>
-        <DialogContent>Are you sure you want to save these changes?</DialogContent>
-        <DialogActions>
-          <Button onClick={() => setConfirmOpen(false)} color="secondary">Cancel</Button>
-          <Button onClick={confirmSave} color="primary" variant="contained">Save</Button>
+      <Dialog 
+        open={confirmOpen} 
+        onClose={() => setConfirmOpen(false)} 
+        PaperProps={{ 
+          sx: { 
+            m: { xs: 2, sm: 3 },
+            background: 'linear-gradient(135deg, rgba(22, 22, 22, 0.95) 0%, rgba(22, 22, 22, 0.98) 100%)',
+            backdropFilter: 'blur(20px)',
+            border: '1px solid rgba(255, 255, 255, 0.18)',
+            borderRadius: 3,
+          } 
+        }}
+      >
+        <DialogTitle sx={{ fontWeight: 700 }}>Confirm Save</DialogTitle>
+        <DialogContent>
+          <Typography>Are you sure you want to save these changes?</Typography>
+        </DialogContent>
+        <DialogActions sx={{ p: 2, gap: 1 }}>
+          <Button 
+            onClick={() => setConfirmOpen(false)}
+            sx={{
+              background: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
+              color: '#000',
+              fontWeight: 600,
+            }}
+          >
+            Cancel
+          </Button>
+          <Button 
+            onClick={confirmSave} 
+            variant="contained"
+            sx={{
+              background: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
+              color: '#000',
+              fontWeight: 600,
+            }}
+          >
+            Confirm
+          </Button>
         </DialogActions>
       </Dialog>
     </Dialog>

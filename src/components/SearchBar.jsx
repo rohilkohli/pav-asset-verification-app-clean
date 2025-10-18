@@ -21,16 +21,28 @@ function SearchBar() {
       flexDirection: { xs: 'column', sm: 'row' },
       width: '100%',
       maxWidth: { xs: '100%', sm: 'auto' },
-      justifyContent: 'center'
+      justifyContent: 'center',
+      background: 'linear-gradient(135deg, rgba(79, 172, 254, 0.1) 0%, rgba(0, 242, 254, 0.1) 100%)',
+      p: 2,
+      borderRadius: 3,
+      border: '1px solid rgba(79, 172, 254, 0.3)',
+      backdropFilter: 'blur(20px)',
     }}>
       <Box component="span" sx={{ 
-        color: 'text.secondary', 
+        color: 'text.primary', 
         mr: { xs: 0, sm: 1 },
         fontSize: { xs: '0.875rem', sm: '1rem' },
-        textAlign: 'center'
+        textAlign: 'center',
+        fontWeight: 600
       }}>Select Search Criteria</Box>
       <Box sx={{ display: 'flex', gap: 1, alignItems: 'center', flexDirection: { xs: 'column', sm: 'row' }, width: { xs: '100%', sm: 'auto' } }}>
-      <FormControl size="small" sx={{ minWidth: { xs: '100%', sm: 160 }, width: { xs: '100%', sm: 'auto' } }}>
+      <FormControl size="small" sx={{ 
+        minWidth: { xs: '100%', sm: 160 }, 
+        width: { xs: '100%', sm: 'auto' },
+        '& .MuiOutlinedInput-root': {
+          background: 'rgba(255, 255, 255, 0.05)',
+        }
+      }}>
         <InputLabel>Criteria</InputLabel>
         <Select value={searchCriteria} label="Criteria" onChange={e => setSearchCriteria(e.target.value)}>
           <MenuItem value="Serial Number">Serial Number</MenuItem>
@@ -45,7 +57,21 @@ function SearchBar() {
         placeholder={placeholderMap[searchCriteria] || 'Search'}
         value={search}
         onChange={e => setSearch(e.target.value)}
-        sx={{ minWidth: { xs: '100%', sm: 320 }, width: { xs: '100%', sm: 'auto' } }}
+        sx={{ 
+          minWidth: { xs: '100%', sm: 320 }, 
+          width: { xs: '100%', sm: 'auto' },
+          '& .MuiOutlinedInput-root': {
+            background: 'rgba(255, 255, 255, 0.05)',
+            transition: 'all 0.3s ease',
+            '&:hover': {
+              background: 'rgba(255, 255, 255, 0.08)',
+            },
+            '&.Mui-focused': {
+              background: 'rgba(255, 255, 255, 0.1)',
+              boxShadow: '0 0 0 3px rgba(79, 172, 254, 0.2)',
+            }
+          }
+        }}
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">

@@ -103,7 +103,17 @@ function UploadForm() {
       startIcon={<UploadFileIcon />}
       color="primary"
       size="small"
-      sx={{ minWidth: { xs: 140, sm: 170 }, textTransform: 'none', fontSize: { xs: '0.8rem', sm: '0.875rem' } }}
+      sx={{ 
+        minWidth: { xs: 140, sm: 170 }, 
+        textTransform: 'none', 
+        fontSize: { xs: '0.8rem', sm: '0.875rem' },
+        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        color: '#fff',
+        fontWeight: 600,
+        '&:hover': {
+          background: 'linear-gradient(135deg, #764ba2 0%, #667eea 100%)',
+        }
+      }}
     >
       Upload Excel/CSV
       <input type="file" accept=".csv, .xlsx" hidden onChange={handleFileUpload} />

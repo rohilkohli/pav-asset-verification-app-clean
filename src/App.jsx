@@ -17,12 +17,137 @@ function makeTheme(mode) {
   return createTheme({
     palette: {
       mode,
-      primary: { main: mode === 'dark' ? '#90caf9' : '#1565c0' },
-      secondary: { main: mode === 'dark' ? '#b0bec5' : '#6c757d' },
-      background: { default: mode === 'dark' ? '#0b0b0d' : '#f6f9fc', paper: mode === 'dark' ? '#161616' : '#fff' },
-      success: { main: '#66bb6a' }
+      primary: { 
+        main: mode === 'dark' ? '#667eea' : '#5a67d8',
+        light: mode === 'dark' ? '#8796ff' : '#7f9cf5',
+        dark: mode === 'dark' ? '#5a67d8' : '#4c51bf',
+      },
+      secondary: { 
+        main: mode === 'dark' ? '#f093fb' : '#ed64a6',
+        light: mode === 'dark' ? '#ffa8ff' : '#f687b3',
+        dark: mode === 'dark' ? '#c661ce' : '#d53f8c',
+      },
+      background: { 
+        default: 'transparent', 
+        paper: mode === 'dark' ? 'rgba(22, 22, 22, 0.8)' : 'rgba(255, 255, 255, 0.9)' 
+      },
+      success: { 
+        main: '#43e97b',
+        light: '#6fffb0',
+        dark: '#38f9d7' 
+      },
+      info: {
+        main: '#4facfe',
+        light: '#79c9ff',
+        dark: '#00f2fe'
+      },
+      warning: {
+        main: '#fa709a',
+        light: '#fee140',
+      },
+      text: {
+        primary: mode === 'dark' ? '#e6eef8' : '#2d3748',
+        secondary: mode === 'dark' ? '#a0aec0' : '#718096',
+      }
     },
-    typography: { fontFamily: 'Inter, Roboto, Arial' }
+    typography: { 
+      fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, Roboto, Arial, sans-serif',
+      h4: {
+        fontWeight: 700,
+        letterSpacing: '-0.02em',
+      },
+      button: {
+        fontWeight: 600,
+        textTransform: 'none',
+      }
+    },
+    shape: {
+      borderRadius: 12,
+    },
+    shadows: [
+      'none',
+      '0 2px 4px rgba(0,0,0,0.1)',
+      '0 4px 8px rgba(0,0,0,0.12)',
+      '0 8px 16px rgba(0,0,0,0.14)',
+      '0 12px 24px rgba(0,0,0,0.16)',
+      '0 16px 32px rgba(0,0,0,0.18)',
+      '0 20px 40px rgba(0,0,0,0.20)',
+      '0 24px 48px rgba(0,0,0,0.22)',
+      '0 2px 4px rgba(0,0,0,0.1)',
+      '0 4px 8px rgba(0,0,0,0.12)',
+      '0 8px 16px rgba(0,0,0,0.14)',
+      '0 12px 24px rgba(0,0,0,0.16)',
+      '0 16px 32px rgba(0,0,0,0.18)',
+      '0 20px 40px rgba(0,0,0,0.20)',
+      '0 24px 48px rgba(0,0,0,0.22)',
+      '0 28px 56px rgba(0,0,0,0.24)',
+      '0 32px 64px rgba(0,0,0,0.26)',
+      '0 36px 72px rgba(0,0,0,0.28)',
+      '0 40px 80px rgba(0,0,0,0.30)',
+      '0 44px 88px rgba(0,0,0,0.32)',
+      '0 48px 96px rgba(0,0,0,0.34)',
+      '0 52px 104px rgba(0,0,0,0.36)',
+      '0 56px 112px rgba(0,0,0,0.38)',
+      '0 60px 120px rgba(0,0,0,0.40)',
+      '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
+    ],
+    components: {
+      MuiButton: {
+        styleOverrides: {
+          root: {
+            borderRadius: 10,
+            padding: '10px 24px',
+            fontSize: '0.95rem',
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+            '&:hover': {
+              transform: 'translateY(-2px)',
+              boxShadow: '0 8px 24px rgba(0, 0, 0, 0.25)',
+            }
+          },
+          contained: {
+            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            '&:hover': {
+              background: 'linear-gradient(135deg, #764ba2 0%, #667eea 100%)',
+            }
+          }
+        }
+      },
+      MuiPaper: {
+        styleOverrides: {
+          root: {
+            backgroundImage: 'none',
+            backdropFilter: 'blur(20px)',
+            backgroundColor: mode === 'dark' ? 'rgba(22, 22, 22, 0.8)' : 'rgba(255, 255, 255, 0.9)',
+            border: `1px solid ${mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)'}`,
+          }
+        }
+      },
+      MuiCard: {
+        styleOverrides: {
+          root: {
+            backdropFilter: 'blur(10px)',
+            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+          }
+        }
+      },
+      MuiTextField: {
+        styleOverrides: {
+          root: {
+            '& .MuiOutlinedInput-root': {
+              transition: 'all 0.3s ease',
+              '&:hover': {
+                transform: 'translateY(-1px)',
+              },
+              '&.Mui-focused': {
+                transform: 'translateY(-2px)',
+                boxShadow: '0 4px 12px rgba(102, 126, 234, 0.25)',
+              }
+            }
+          }
+        }
+      }
+    }
   });
 }
 
@@ -45,12 +170,68 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <AssetProvider>
-        <Container maxWidth="lg" sx={{ py: { xs: 2, sm: 3, md: 4 }, px: { xs: 1, sm: 2 } }}>
+        <Container maxWidth="lg" sx={{ py: { xs: 2, sm: 3, md: 4 }, px: { xs: 1, sm: 2 }, position: 'relative', zIndex: 1 }}>
           {/* add extra bottom padding equal to footer height + safe spacing to avoid overlap */}
-          <Paper elevation={3} sx={{ p: { xs: 2, sm: 3 }, pb: 10, bgcolor: 'background.paper', backdropFilter: 'blur(6px)', borderRadius: 2 }}>
-            <Typography variant="h4" component="h1" align="center" gutterBottom sx={{ fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' } }}>
-              Physical Asset Verification
-            </Typography>
+          <Paper 
+            elevation={24} 
+            sx={{ 
+              p: { xs: 2, sm: 3 }, 
+              pb: 10, 
+              bgcolor: 'background.paper', 
+              backdropFilter: 'blur(20px)', 
+              borderRadius: 4,
+              boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
+              border: '1px solid rgba(255, 255, 255, 0.18)',
+              position: 'relative',
+              overflow: 'hidden',
+              '&::before': {
+                content: '""',
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                height: '4px',
+                background: 'linear-gradient(90deg, #667eea 0%, #764ba2 50%, #f093fb 100%)',
+                backgroundSize: '200% 100%',
+                animation: 'gradient-shift 3s ease infinite',
+              }
+            }}
+          >
+            <Box sx={{ 
+              textAlign: 'center', 
+              mb: 3,
+              position: 'relative'
+            }}>
+              <Typography 
+                variant="h4" 
+                component="h1" 
+                sx={{ 
+                  fontSize: { xs: '1.75rem', sm: '2.25rem', md: '2.5rem' },
+                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)',
+                  backgroundSize: '200% 200%',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                  animation: 'gradient-shift 3s ease infinite',
+                  fontWeight: 800,
+                  letterSpacing: '-0.02em',
+                  textShadow: mode === 'dark' ? '0 0 40px rgba(102, 126, 234, 0.3)' : 'none',
+                  mb: 1
+                }}
+              >
+                Physical Asset Verification
+              </Typography>
+              <Typography 
+                variant="body2" 
+                sx={{ 
+                  color: 'text.secondary',
+                  fontSize: { xs: '0.875rem', sm: '1rem' },
+                  fontWeight: 500
+                }}
+              >
+                Manage and verify your assets with ease
+              </Typography>
+            </Box>
 
             {/* Top buttons need access to context; define as child so useContext can be used safely */}
             <TopButtons mode={mode} setMode={setMode} />
@@ -76,7 +257,7 @@ function App() {
 function TopButtons({ mode, setMode }) {
   const { saveChanges, engineerName, setEngineerName, defaultPavDate, setDefaultPavDate } = useContext(AssetContext);
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mb: 3, gap: 1 }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mb: 3, gap: 2 }}>
       <Box sx={{ 
         display: 'flex', 
         gap: { xs: 1, sm: 2, md: 3 }, 
@@ -89,12 +270,36 @@ function TopButtons({ mode, setMode }) {
           variant="contained" 
           color="primary" 
           onClick={() => saveChanges()}
-          sx={{ fontSize: { xs: '0.8rem', sm: '0.875rem' } }}
+          sx={{ 
+            fontSize: { xs: '0.8rem', sm: '0.875rem' },
+            background: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
+            color: '#000',
+            fontWeight: 600,
+            '&:hover': {
+              background: 'linear-gradient(135deg, #38f9d7 0%, #43e97b 100%)',
+            }
+          }}
         >
           Save Changes
         </Button>
         <DownloadButton />
-        <IconButton sx={{ ml: 1 }} color="inherit" onClick={() => { setMode(m => m === 'dark' ? 'light' : 'dark'); window.location.reload(); }} aria-label="toggle theme">
+        <IconButton 
+          sx={{ 
+            ml: 1,
+            background: mode === 'dark' 
+              ? 'linear-gradient(135deg, #ffa726 0%, #fb8c00 100%)' 
+              : 'linear-gradient(135deg, #5e35b1 0%, #311b92 100%)',
+            color: '#fff',
+            transition: 'all 0.3s ease',
+            '&:hover': {
+              transform: 'rotate(180deg) scale(1.1)',
+              boxShadow: '0 4px 20px rgba(102, 126, 234, 0.5)',
+            }
+          }} 
+          color="inherit" 
+          onClick={() => { setMode(m => m === 'dark' ? 'light' : 'dark'); window.location.reload(); }} 
+          aria-label="toggle theme"
+        >
           {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
         </IconButton>
       </Box>
@@ -108,11 +313,23 @@ function TopButtons({ mode, setMode }) {
         width: '100%',
         justifyContent: 'center'
       }}>
-        <Box sx={{ display: 'flex', gap: 1, alignItems: 'center', flexDirection: { xs: 'column', sm: 'row' }, width: { xs: '100%', sm: 'auto' } }}>
+        <Box sx={{ 
+          display: 'flex', 
+          gap: 1, 
+          alignItems: 'center', 
+          flexDirection: { xs: 'column', sm: 'row' }, 
+          width: { xs: '100%', sm: 'auto' },
+          background: engineerName ? 'rgba(67, 233, 123, 0.1)' : 'rgba(245, 87, 108, 0.1)',
+          padding: { xs: 2, sm: 1.5 },
+          borderRadius: 2,
+          border: `1px solid ${engineerName ? 'rgba(67, 233, 123, 0.3)' : 'rgba(245, 87, 108, 0.3)'}`,
+          transition: 'all 0.3s ease',
+        }}>
           <Box component="span" sx={{ 
-            color: 'text.secondary', 
+            color: 'text.primary', 
             fontSize: { xs: '0.875rem', sm: '1rem' },
             textAlign: { xs: 'center', sm: 'left' },
+            fontWeight: 600,
             minWidth: { xs: 'auto', sm: 'auto' }
           }}>Engineer Name *</Box>
           <TextField 
@@ -121,18 +338,48 @@ function TopButtons({ mode, setMode }) {
             onChange={e => setEngineerName(e.target.value)} 
             required 
             error={!engineerName}
-            helperText={!engineerName ? 'Engineer name is required' : ''}
-            sx={{ minWidth: { xs: '100%', sm: 220 }, width: { xs: '100%', sm: 'auto' } }} 
+            helperText={!engineerName ? 'Required field' : ''}
+            sx={{ 
+              minWidth: { xs: '100%', sm: 220 }, 
+              width: { xs: '100%', sm: 'auto' },
+              '& .MuiOutlinedInput-root': {
+                background: 'rgba(255, 255, 255, 0.05)',
+              }
+            }} 
           />
         </Box>
-        <Box sx={{ display: 'flex', gap: 1, alignItems: 'center', flexDirection: { xs: 'column', sm: 'row' }, width: { xs: '100%', sm: 'auto' } }}>
+        <Box sx={{ 
+          display: 'flex', 
+          gap: 1, 
+          alignItems: 'center', 
+          flexDirection: { xs: 'column', sm: 'row' }, 
+          width: { xs: '100%', sm: 'auto' },
+          background: 'rgba(79, 172, 254, 0.1)',
+          padding: { xs: 2, sm: 1.5 },
+          borderRadius: 2,
+          border: '1px solid rgba(79, 172, 254, 0.3)',
+        }}>
           <Box component="span" sx={{ 
-            color: 'text.secondary', 
+            color: 'text.primary', 
             fontSize: { xs: '0.875rem', sm: '1rem' },
             textAlign: { xs: 'center', sm: 'left' },
+            fontWeight: 600,
             minWidth: { xs: 'auto', sm: 'auto' }
           }}>PAV Date</Box>
-          <TextField size="small" type="date" value={defaultPavDate} onChange={e => setDefaultPavDate(e.target.value)} InputLabelProps={{ shrink: true }} sx={{ minWidth: { xs: '100%', sm: 160 }, width: { xs: '100%', sm: 'auto' } }} />
+          <TextField 
+            size="small" 
+            type="date" 
+            value={defaultPavDate} 
+            onChange={e => setDefaultPavDate(e.target.value)} 
+            InputLabelProps={{ shrink: true }} 
+            sx={{ 
+              minWidth: { xs: '100%', sm: 160 }, 
+              width: { xs: '100%', sm: 'auto' },
+              '& .MuiOutlinedInput-root': {
+                background: 'rgba(255, 255, 255, 0.05)',
+              }
+            }} 
+          />
         </Box>
       </Box>
     </Box>
