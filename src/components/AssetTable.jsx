@@ -201,7 +201,6 @@ function AssetTable() {
     flexWrap: 'wrap', 
     justifyContent: 'space-between',
     background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%)',
-    backdropFilter: 'blur(20px)',
     border: '1px solid rgba(255, 255, 255, 0.18)',
     borderRadius: 3,
   }}>
@@ -351,7 +350,6 @@ function AssetTable() {
           maxWidth: 640, 
           mx: 'auto',
           background: 'linear-gradient(135deg, rgba(79, 172, 254, 0.1) 0%, rgba(0, 242, 254, 0.1) 100%)',
-          backdropFilter: 'blur(20px)',
           border: '1px solid rgba(79, 172, 254, 0.3)',
           borderRadius: 3,
         }}>
@@ -384,13 +382,14 @@ function AssetTable() {
               bgcolor: 'background.paper',
               border: '1px solid rgba(255, 255, 255, 0.18)',
               borderRadius: 3,
-              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+              transition: 'transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.2s ease',
               position: 'relative',
               overflow: 'hidden',
-              backdropFilter: 'blur(10px)',
+              willChange: 'transform',
+              transform: 'translateZ(0)',
               '&:hover': { 
-                transform: 'translateY(-8px) scale(1.02)', 
-                boxShadow: '0 16px 48px 0 rgba(31, 38, 135, 0.5)',
+                transform: 'translateY(-4px) translateZ(0)', 
+                boxShadow: '0 8px 24px 0 rgba(31, 38, 135, 0.3)',
                 border: '1px solid rgba(102, 126, 234, 0.5)',
               },
               '&::before': {

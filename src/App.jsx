@@ -98,11 +98,12 @@ function makeTheme(mode) {
             borderRadius: 10,
             padding: '10px 24px',
             fontSize: '0.95rem',
-            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
-            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.12)',
+            transition: 'transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+            willChange: 'transform',
             '&:hover': {
-              transform: 'translateY(-2px)',
-              boxShadow: '0 8px 24px rgba(0, 0, 0, 0.25)',
+              transform: 'translateY(-1px)',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',
             }
           },
           contained: {
@@ -117,8 +118,7 @@ function makeTheme(mode) {
         styleOverrides: {
           root: {
             backgroundImage: 'none',
-            backdropFilter: 'blur(20px)',
-            backgroundColor: mode === 'dark' ? 'rgba(22, 22, 22, 0.8)' : 'rgba(255, 255, 255, 0.9)',
+            backgroundColor: mode === 'dark' ? 'rgba(22, 22, 22, 0.95)' : 'rgba(255, 255, 255, 0.95)',
             border: `1px solid ${mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)'}`,
           }
         }
@@ -126,8 +126,9 @@ function makeTheme(mode) {
       MuiCard: {
         styleOverrides: {
           root: {
-            backdropFilter: 'blur(10px)',
-            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+            transition: 'transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+            willChange: 'transform',
+            transform: 'translateZ(0)',
           }
         }
       },
@@ -135,13 +136,9 @@ function makeTheme(mode) {
         styleOverrides: {
           root: {
             '& .MuiOutlinedInput-root': {
-              transition: 'all 0.3s ease',
-              '&:hover': {
-                transform: 'translateY(-1px)',
-              },
+              transition: 'border-color 0.2s ease, box-shadow 0.2s ease',
               '&.Mui-focused': {
-                transform: 'translateY(-2px)',
-                boxShadow: '0 4px 12px rgba(102, 126, 234, 0.25)',
+                boxShadow: '0 2px 8px rgba(102, 126, 234, 0.2)',
               }
             }
           }
@@ -178,7 +175,6 @@ function App() {
               p: { xs: 2, sm: 3 }, 
               pb: 10, 
               bgcolor: 'background.paper', 
-              backdropFilter: 'blur(20px)', 
               borderRadius: 4,
               boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
               border: '1px solid rgba(255, 255, 255, 0.18)',
@@ -192,8 +188,6 @@ function App() {
                 right: 0,
                 height: '4px',
                 background: 'linear-gradient(90deg, #667eea 0%, #764ba2 50%, #f093fb 100%)',
-                backgroundSize: '200% 100%',
-                animation: 'gradient-shift 3s ease infinite',
               }
             }}
           >
@@ -208,14 +202,11 @@ function App() {
                 sx={{ 
                   fontSize: { xs: '1.75rem', sm: '2.25rem', md: '2.5rem' },
                   background: 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)',
-                  backgroundSize: '200% 200%',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                   backgroundClip: 'text',
-                  animation: 'gradient-shift 3s ease infinite',
                   fontWeight: 800,
                   letterSpacing: '-0.02em',
-                  textShadow: mode === 'dark' ? '0 0 40px rgba(102, 126, 234, 0.3)' : 'none',
                   mb: 1
                 }}
               >

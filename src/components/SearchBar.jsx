@@ -26,7 +26,6 @@ function SearchBar() {
       p: 2,
       borderRadius: 3,
       border: '1px solid rgba(79, 172, 254, 0.3)',
-      backdropFilter: 'blur(20px)',
     }}>
       <Box component="span" sx={{ 
         color: 'text.primary', 
