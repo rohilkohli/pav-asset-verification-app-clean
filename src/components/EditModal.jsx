@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { AssetContext } from '../context/AssetContext';
 import {
   Dialog, DialogTitle, DialogContent, DialogActions,
-  Button, TextField, MenuItem, Select, FormControl, InputLabel, Box, FormHelperText
+  Button, TextField, MenuItem, Select, FormControl, InputLabel, Box, FormHelperText, Typography
 } from '@mui/material';
 
 const assetStatusOptions = ["In use", "Not in use", "Not found"];
