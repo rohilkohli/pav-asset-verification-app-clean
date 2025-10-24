@@ -31,7 +31,7 @@ function DownloadButton() {
         textTransform: 'none', 
         fontSize: { xs: '0.8rem', sm: '0.875rem' },
         background: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
-        color: '#fff',
+        color: '#000',
         fontWeight: 600,
         '&:hover': {
           background: 'linear-gradient(135deg, #00f2fe 0%, #4facfe 100%)',
