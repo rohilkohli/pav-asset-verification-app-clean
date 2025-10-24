@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useCallback } from 'react';
 import { AssetContext } from '../context/AssetContext';
 import {
   Dialog, DialogTitle, DialogContent, DialogActions,
@@ -14,45 +14,46 @@ const availabilityOptions = [
   "Other"
 ];
 
-function EditModal({ asset, idx, onClose }) {
-  const { assets, setAssets } = useContext(AssetContext);
-
-  // Helper to parse possible Excel serials / Date objects / strings into an ISO yyyy-mm-dd string
-  function toIsoDateString(src) {
-    if (src == null || src === '') return '';
-    // Excel numeric serial
-    if (typeof src === 'number' && !isNaN(src)) {
-      const ms = Math.round((src - 25569) * 86400 * 1000);
-      const dt = new Date(ms);
-      if (!isNaN(dt.getTime())) {
-        const yyyy = dt.getFullYear();
-        const mm = String(dt.getMonth() + 1).padStart(2, '0');
-        const dd = String(dt.getDate()).padStart(2, '0');
-        return `${yyyy}-${mm}-${dd}`;
-      }
-      return '';
-    }
-    // Date object
-    if (Object.prototype.toString.call(src) === '[object Date]') {
-      if (!isNaN(src.getTime())) {
-        const yyyy = src.getFullYear();
-        const mm = String(src.getMonth() + 1).padStart(2, '0');
-        const dd = String(src.getDate()).padStart(2, '0');
-        return `${yyyy}-${mm}-${dd}`;
-      }
-      return '';
-    }
-    // String: try to parse
-    const dt = new Date(src);
+// Helper to parse possible Excel serials / Date objects / strings into an ISO yyyy-mm-dd string
+// Moved outside component for performance
+function toIsoDateString(src) {
+  if (src == null || src === '') return '';
+  // Excel numeric serial
+  if (typeof src === 'number' && !isNaN(src)) {
+    const ms = Math.round((src - 25569) * 86400 * 1000);
+    const dt = new Date(ms);
     if (!isNaN(dt.getTime())) {
       const yyyy = dt.getFullYear();
       const mm = String(dt.getMonth() + 1).padStart(2, '0');
       const dd = String(dt.getDate()).padStart(2, '0');
       return `${yyyy}-${mm}-${dd}`;
     }
-    // fallback
     return '';
   }
+  // Date object
+  if (Object.prototype.toString.call(src) === '[object Date]') {
+    if (!isNaN(src.getTime())) {
+      const yyyy = src.getFullYear();
+      const mm = String(src.getMonth() + 1).padStart(2, '0');
+      const dd = String(src.getDate()).padStart(2, '0');
+      return `${yyyy}-${mm}-${dd}`;
+    }
+    return '';
+  }
+  // String: try to parse
+  const dt = new Date(src);
+  if (!isNaN(dt.getTime())) {
+    const yyyy = dt.getFullYear();
+    const mm = String(dt.getMonth() + 1).padStart(2, '0');
+    const dd = String(dt.getDate()).padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
+  }
+  // fallback
+  return '';
+}
+
+function EditModal({ asset, idx, onClose }) {
+  const { assets, setAssets } = useContext(AssetContext);
 
   // initial values (preserve empty PAV dates as empty, convert valid dates to yyyy-mm-dd)
   const initialDate = toIsoDateString(asset['PAV Date of visit (DD-MMM-YYYY i.e: 15-Mar-2021)']);
@@ -76,8 +77,8 @@ function EditModal({ asset, idx, onClose }) {
   const isDisposalMandatory = form.remarks === "Asset picked up by Disposal Vendor";
   const isBranchCodeMandatory = form.remarks === "Available in different branch";
 
-  // Handle Save (open confirmation)
-  const handleSave = () => {
+  // Handle Save (open confirmation) - memoized
+  const handleSave = useCallback(() => {
     let newErrors = {};
     if (isDisposalMandatory && !form.disposalTicket.trim()) {
       newErrors.disposalTicket = "Disposal Ticket is required.";
@@ -90,9 +91,9 @@ function EditModal({ asset, idx, onClose }) {
       return;
     }
     setConfirmOpen(true);
-  };
+  }, [form, setErrors]);
 
-  const confirmSave = () => {
+  const confirmSave = useCallback(() => {
     const updated = [...assets];
     updated[idx]['Asset status'] = form.assetStatus;
     updated[idx]['PAV Status'] = form.pavStatus;
@@ -106,7 +107,9 @@ function EditModal({ asset, idx, onClose }) {
     setAssets(updated);
     setConfirmOpen(false);
     onClose();
-  };
+  }, [assets, idx, form, setAssets, onClose]);
+
+  const handleCloseConfirm = useCallback(() => setConfirmOpen(false), []);
 
   // UI
   return (
@@ -267,7 +270,7 @@ function EditModal({ asset, idx, onClose }) {
       {/* Confirmation dialog */}
       <Dialog 
         open={confirmOpen} 
-        onClose={() => setConfirmOpen(false)} 
+        onClose={handleCloseConfirm} 
         PaperProps={{ 
           sx: { 
             m: { xs: 2, sm: 3 },
@@ -284,7 +287,7 @@ function EditModal({ asset, idx, onClose }) {
         </DialogContent>
         <DialogActions sx={{ p: 2, gap: 1 }}>
           <Button 
-            onClick={() => setConfirmOpen(false)}
+            onClick={handleCloseConfirm}
             sx={{
               background: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
               color: '#000',

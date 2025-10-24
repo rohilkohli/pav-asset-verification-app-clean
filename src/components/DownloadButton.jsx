@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useCallback } from 'react';
 import { AssetContext } from '../context/AssetContext';
 import * as XLSX from 'xlsx';
 import { Button } from '@mui/material';
@@ -7,7 +7,7 @@ import DownloadIcon from '@mui/icons-material/Download';
 function DownloadButton() {
   const { assets, engineerName, defaultPavDate } = useContext(AssetContext);
 
-  const handleDownload = () => {
+  const handleDownload = useCallback(() => {
     if (!assets.length) return;
     
     // Generate filename from Engineer Name and PAV Date
@@ -19,7 +19,7 @@ function DownloadButton() {
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'PAV Sheet');
     XLSX.writeFile(wb, filename);
-  };
+  }, [assets, engineerName, defaultPavDate]);
 
   return (
     <Button

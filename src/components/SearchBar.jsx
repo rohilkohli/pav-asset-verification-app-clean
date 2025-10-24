@@ -1,17 +1,29 @@
-import React, { useContext } from 'react';
+import React, { useContext, useCallback } from 'react';
 import { AssetContext } from '../context/AssetContext';
 import { TextField, InputAdornment, IconButton, FormControl, InputLabel, Select, MenuItem, Box } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
 
+const placeholderMap = {
+  'Serial Number': 'Search Serial Number',
+  'Asset Code': 'Search Asset Code',
+  'Asset make': 'Search Asset make'
+};
+
 function SearchBar() {
   const { search, setSearch, searchCriteria, setSearchCriteria } = useContext(AssetContext);
 
-  const placeholderMap = {
-    'Serial Number': 'Search Serial Number',
-    'Asset Code': 'Search Asset Code',
-    'Asset make': 'Search Asset make'
-  };
+  const handleSearchChange = useCallback((e) => {
+    setSearch(e.target.value);
+  }, [setSearch]);
+
+  const handleCriteriaChange = useCallback((e) => {
+    setSearchCriteria(e.target.value);
+  }, [setSearchCriteria]);
+
+  const handleClearSearch = useCallback(() => {
+    setSearch('');
+  }, [setSearch]);
 
   return (
     <Box sx={{ 
@@ -43,7 +55,7 @@ function SearchBar() {
         }
       }}>
         <InputLabel>Criteria</InputLabel>
-        <Select value={searchCriteria} label="Criteria" onChange={e => setSearchCriteria(e.target.value)}>
+        <Select value={searchCriteria} label="Criteria" onChange={handleCriteriaChange}>
           <MenuItem value="Serial Number">Serial Number</MenuItem>
           <MenuItem value="Asset Code">Asset Code</MenuItem>
           <MenuItem value="Asset make">Asset make</MenuItem>
@@ -55,7 +67,7 @@ function SearchBar() {
         size="small"
         placeholder={placeholderMap[searchCriteria] || 'Search'}
         value={search}
-        onChange={e => setSearch(e.target.value)}
+        onChange={handleSearchChange}
         sx={{ 
           minWidth: { xs: '100%', sm: 320 }, 
           width: { xs: '100%', sm: 'auto' },
@@ -79,7 +91,7 @@ function SearchBar() {
           ),
           endAdornment: (
             <InputAdornment position="end">
-              <IconButton size="small" onClick={() => setSearch('')} aria-label="clear search">
+              <IconButton size="small" onClick={handleClearSearch} aria-label="clear search">
                 <ClearIcon fontSize="small" />
               </IconButton>
             </InputAdornment>

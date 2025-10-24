@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useCallback, useMemo, useState } from 'react';
 
 export const AssetContext = createContext();
 
@@ -29,7 +29,8 @@ export function AssetProvider({ children }) {
   });
 
   // Persistence is now explicit. Call saveChanges() to persist to localStorage.
-  const saveChanges = () => {
+  // Memoize with useCallback to prevent recreation on every render
+  const saveChanges = useCallback(() => {
     try {
       // Before persisting, apply Engineer Name and default PAV date to assets
       // that have been edited by the engineer (marked with _pav_edited flag)
@@ -55,19 +56,25 @@ export function AssetProvider({ children }) {
     } catch (e) {
       return false;
     }
-  };
+  }, [assets, engineerName, defaultPavDate]);
+
+  // Memoize context value to prevent unnecessary re-renders
+  const contextValue = useMemo(() => ({
+    assets, setAssets,
+    filters, setFilters,
+    search, setSearch,
+    searchCriteria, setSearchCriteria,
+    suppressAutoDisplay, setSuppressAutoDisplay,
+    engineerName, setEngineerName,
+    defaultPavDate, setDefaultPavDate,
+    saveChanges
+  }), [
+    assets, filters, search, searchCriteria, 
+    suppressAutoDisplay, engineerName, defaultPavDate, saveChanges
+  ]);
 
   return (
-    <AssetContext.Provider value={{
-      assets, setAssets,
-      filters, setFilters,
-      search, setSearch,
-      searchCriteria, setSearchCriteria,
-      suppressAutoDisplay, setSuppressAutoDisplay,
-      engineerName, setEngineerName,
-      defaultPavDate, setDefaultPavDate,
-      saveChanges
-    }}>
+    <AssetContext.Provider value={contextValue}>
       {children}
     </AssetContext.Provider>
   );

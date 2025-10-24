@@ -1,4 +1,4 @@
-import React, { useContext, useState, useMemo, useEffect } from 'react';
+import React, { useContext, useState, useMemo, useEffect, useCallback } from 'react';
 import { AssetContext } from '../context/AssetContext';
 import {
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Select, MenuItem, TextField, FormControl, InputLabel, FormHelperText,
@@ -16,6 +16,11 @@ const availabilityRemarksOptions = [
   "Other"
 ];
 
+// Helper to safely lowercase strings - moved outside component for better performance
+function safeLower(val) {
+  return typeof val === 'string' ? val.toLowerCase() : '';
+}
+
 function AssetTable() {
   const ctx = useContext(AssetContext);
   const { assets, setAssets, filters: ctxFilters = {}, search, setFilters, searchCriteria, defaultPavDate, suppressAutoDisplay, setSuppressAutoDisplay, engineerName } = ctx;
@@ -24,14 +29,14 @@ function AssetTable() {
   const [localFilters, setLocalFilters] = useState(ctxFilters || {});
   const effectiveFilters = setFilters ? (ctxFilters || {}) : localFilters;
 
-  // Helper to update filters via context (if present) or local state
-  const updateFilters = (patch) => {
+  // Helper to update filters via context (if present) or local state - memoized
+  const updateFilters = useCallback((patch) => {
     if (setFilters) {
       setFilters({ ...(ctxFilters || {}), ...patch });
     } else {
       setLocalFilters(prev => ({ ...(prev || {}), ...patch }));
     }
-  };
+  }, [setFilters, ctxFilters]);
 
   const [sortBy, setSortBy] = useState('Asset Code');
   const [sortDir, setSortDir] = useState('asc');
@@ -40,14 +45,36 @@ function AssetTable() {
   const [errors, setErrors] = useState({});
 
   // derive select options from data; Make depends on selected Asset Type
-  const assetTypes = useMemo(() => Array.from(new Set(assets.map(a => a['Asset Type']).filter(Boolean))), [assets]);
-  const pavStatuses = useMemo(() => Array.from(new Set(assets.map(a => a['PAV Status']).filter(Boolean))), [assets]);
+  // Optimize by caching these computations
+  const assetTypes = useMemo(() => {
+    const types = new Set();
+    for (let i = 0; i < assets.length; i++) {
+      const type = assets[i]['Asset Type'];
+      if (type) types.add(type);
+    }
+    return Array.from(types);
+  }, [assets]);
+
+  const pavStatuses = useMemo(() => {
+    const statuses = new Set();
+    for (let i = 0; i < assets.length; i++) {
+      const status = assets[i]['PAV Status'];
+      if (status) statuses.add(status);
+    }
+    return Array.from(statuses);
+  }, [assets]);
+
   const makes = useMemo(() => {
-    const list = assets
-      .filter(a => !effectiveFilters.assetType || a['Asset Type'] === effectiveFilters.assetType)
-      .map(a => a['Make'])
-      .filter(Boolean);
-    return Array.from(new Set(list));
+    const makeSet = new Set();
+    const filterType = effectiveFilters.assetType;
+    for (let i = 0; i < assets.length; i++) {
+      const asset = assets[i];
+      if (!filterType || asset['Asset Type'] === filterType) {
+        const make = asset['Make'];
+        if (make) makeSet.add(make);
+      }
+    }
+    return Array.from(makeSet);
   }, [assets, effectiveFilters.assetType]);
 
   // Ensure localFilters sync if context filters change (only relevant when using local fallback)
@@ -57,62 +84,77 @@ function AssetTable() {
     }
   }, [ctxFilters, setFilters]);
 
-  // Helper to safely lowercase strings
-  function safeLower(val) {
-    return typeof val === 'string' ? val.toLowerCase() : '';
-  }
-
-  // Filtering logic (memoized)
+  // Filtering logic (memoized and optimized)
   const filtered = useMemo(() => {
     if (!assets || !assets.length) return [];
     const s = search ? String(search).toLowerCase() : '';
-    return assets.filter(asset => {
-      if (effectiveFilters.assetType && asset['Asset Type'] !== effectiveFilters.assetType) return false;
-      if (effectiveFilters.make && asset['Make'] !== effectiveFilters.make) return false;
-      if (effectiveFilters.pavStatus && asset['PAV Status'] !== effectiveFilters.pavStatus) return false;
-      if (!s) return true;
-      if (searchCriteria === 'Serial Number') return safeLower(asset['Serial Number']).includes(s);
-      if (searchCriteria === 'Asset Code') return safeLower(asset['Asset Code']).includes(s);
-      if (searchCriteria === 'Asset make' || searchCriteria === 'Make') return safeLower(asset['Make']).includes(s);
-      // fallback
-      return (
-        safeLower(asset['Serial Number']).includes(s) ||
-        safeLower(asset['Model']).includes(s) ||
-        safeLower(asset['Make']).includes(s) ||
-        safeLower(asset['Asset Code']).includes(s)
-      );
-    });
-  }, [assets, effectiveFilters.assetType, effectiveFilters.make, effectiveFilters.pavStatus, search, searchCriteria]);
+    const { assetType, make, pavStatus } = effectiveFilters;
+    
+    const result = [];
+    for (let i = 0; i < assets.length; i++) {
+      const asset = assets[i];
+      
+      // Apply filters first (most selective)
+      if (assetType && asset['Asset Type'] !== assetType) continue;
+      if (make && asset['Make'] !== make) continue;
+      if (pavStatus && asset['PAV Status'] !== pavStatus) continue;
+      
+      // Apply search if present
+      if (s) {
+        let matches = false;
+        if (searchCriteria === 'Serial Number') {
+          matches = safeLower(asset['Serial Number']).includes(s);
+        } else if (searchCriteria === 'Asset Code') {
+          matches = safeLower(asset['Asset Code']).includes(s);
+        } else if (searchCriteria === 'Asset make' || searchCriteria === 'Make') {
+          matches = safeLower(asset['Make']).includes(s);
+        } else {
+          // fallback to multi-field search
+          matches = (
+            safeLower(asset['Serial Number']).includes(s) ||
+            safeLower(asset['Model']).includes(s) ||
+            safeLower(asset['Make']).includes(s) ||
+            safeLower(asset['Asset Code']).includes(s)
+          );
+        }
+        if (!matches) continue;
+      }
+      
+      result.push(asset);
+    }
+    return result;
+  }, [assets, effectiveFilters, search, searchCriteria]);
 
   // If suppressAutoDisplay is active and there are no filters/search applied, opt to show empty placeholder
   const noActiveFilters = !search && !(effectiveFilters.assetType || effectiveFilters.make || effectiveFilters.pavStatus);
   const shouldSuppress = suppressAutoDisplay && noActiveFilters;
 
-  // Sorting (memoized)
+  // Sorting (memoized and optimized)
   const displayed = useMemo(() => {
-    const copy = (filtered || []).slice();
+    if (!filtered || filtered.length === 0) return [];
+    const copy = filtered.slice();
+    const direction = sortDir === 'asc' ? 1 : -1;
+    
     copy.sort((a, b) => {
       const A = (a[sortBy] || '').toString().toLowerCase();
       const B = (b[sortBy] || '').toString().toLowerCase();
-      if (A < B) return sortDir === 'asc' ? -1 : 1;
-      if (A > B) return sortDir === 'asc' ? 1 : -1;
-      return 0;
+      return A < B ? -direction : A > B ? direction : 0;
     });
     return copy;
   }, [filtered, sortBy, sortDir]);
 
-  // Calculate counts by PAV Status from filtered results
+  // Calculate counts by PAV Status from filtered results - optimized
   const pavStatusCounts = useMemo(() => {
     const counts = {};
-    filtered.forEach(asset => {
-      const status = asset['PAV Status'] || 'Unknown';
+    for (let i = 0; i < filtered.length; i++) {
+      const status = filtered[i]['PAV Status'] || 'Unknown';
       counts[status] = (counts[status] || 0) + 1;
-    });
+    }
     return counts;
   }, [filtered]);
 
-  // Handler for dropdown and text changes
-  const handleChange = (idx, field, value) => {
+  // Handler for dropdown and text changes - memoized
+  const handleChange = useCallback((idx, field, value) => {
     const updated = [...assets];
     updated[idx][field] = value;
 
@@ -153,10 +195,10 @@ function AssetTable() {
 
     setAssets(updated);
     setErrors(e => ({ ...e, [idx]: err }));
-  };
+  }, [assets, setAssets]);
 
-  // Handler for changing Asset Type / Make / PAV Status (updates filters with dependency)
-  const handleFilterChange = (field, value) => {
+  // Handler for changing Asset Type / Make / PAV Status (updates filters with dependency) - memoized
+  const handleFilterChange = useCallback((field, value) => {
     // If Asset Type changed, and selected Make is incompatible, clear Make
     if (field === 'assetType') {
       // compute makes available for the new asset type
@@ -171,24 +213,24 @@ function AssetTable() {
       }
     }
     updateFilters({ [field]: value });
-  };
+  }, [assets, effectiveFilters.make, updateFilters]);
 
-  // Handler for text field changes (comments, disposal ticket, branch code)
-  const handleTextChange = (idx, field, value) => {
+  // Handler for text field changes (comments, disposal ticket, branch code) - memoized
+  const handleTextChange = useCallback((idx, field, value) => {
     handleChange(idx, field, value);
-  };
+  }, [handleChange]);
 
   // Editing modal state
   const [editingIdx, setEditingIdx] = useState(null);
 
-  const openEdit = (asset) => {
+  const openEdit = useCallback((asset) => {
     // find original index in assets array using stable _pav_id when available
     const id = asset && (asset['_pav_id'] || asset['Asset Code'] || asset['Serial Number']);
     const originalIndex = assets.findIndex(a => (a['_pav_id'] || a['Asset Code'] || a['Serial Number']) === id);
     if (originalIndex >= 0) setEditingIdx(originalIndex);
-  };
+  }, [assets]);
 
-  const closeEdit = () => setEditingIdx(null);
+  const closeEdit = useCallback(() => setEditingIdx(null), []);
 
   return (
     <>
