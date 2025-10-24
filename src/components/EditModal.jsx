@@ -1,4 +1,4 @@
-import React, { useContext, useState, useCallback } from 'react';
+import React, { useContext, useState, useCallback, memo } from 'react';
 import { AssetContext } from '../context/AssetContext';
 import {
   Dialog, DialogTitle, DialogContent, DialogActions,
@@ -319,4 +319,4 @@ function EditModal({ asset, idx, onClose }) {
   );
 }
 
-export default EditModal;
+export default memo(EditModal);

@@ -1,4 +1,4 @@
-import React, { useContext, useCallback } from 'react';
+import React, { useContext, useCallback, memo } from 'react';
 import { AssetContext } from '../context/AssetContext';
 import { TextField, InputAdornment, IconButton, FormControl, InputLabel, Select, MenuItem, Box } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
@@ -103,4 +103,4 @@ function SearchBar() {
   );
 }
 
-export default SearchBar;
+export default memo(SearchBar);

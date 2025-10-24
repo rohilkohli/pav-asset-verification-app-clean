@@ -1,4 +1,4 @@
-import React, { useContext, useCallback } from 'react';
+import React, { useContext, useCallback, memo } from 'react';
 import { AssetContext } from '../context/AssetContext';
 import * as XLSX from 'xlsx';
 import { Button, useTheme } from '@mui/material';
@@ -57,4 +57,4 @@ function DownloadButton() {
   );
 }
 
-export default DownloadButton;
+export default memo(DownloadButton);

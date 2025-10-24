@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect, useCallback } from 'react';
+import React, { useMemo, useState, useEffect, useCallback, memo } from 'react';
 import { AssetProvider } from './context/AssetContext';
 import UploadForm from './components/UploadForm';
 import FilterBar from './components/FilterBar';
@@ -246,7 +246,7 @@ function App() {
   );
 }
 
-function TopButtons({ mode, setMode }) {
+const TopButtons = memo(function TopButtons({ mode, setMode }) {
   const { saveChanges, engineerName, setEngineerName, defaultPavDate, setDefaultPavDate } = useContext(AssetContext);
   
   const handleToggleTheme = useCallback(() => {
@@ -390,6 +390,6 @@ function TopButtons({ mode, setMode }) {
       </Box>
     </Box>
   );
-}
+});
 
 export default App;
