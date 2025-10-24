@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo, useState, useEffect, useCallback } from 'react';
 import { AssetProvider } from './context/AssetContext';
 import UploadForm from './components/UploadForm';
 import FilterBar from './components/FilterBar';
@@ -13,6 +13,7 @@ import { useContext } from 'react';
 import { AssetContext } from './context/AssetContext';
 /* sample-ui.css removed during cleanup; styles consolidated in styles/main.css */
 
+// Move theme creation outside component for better performance
 function makeTheme(mode) {
   return createTheme({
     palette: {
@@ -247,6 +248,20 @@ function App() {
 
 function TopButtons({ mode, setMode }) {
   const { saveChanges, engineerName, setEngineerName, defaultPavDate, setDefaultPavDate } = useContext(AssetContext);
+  
+  const handleToggleTheme = useCallback(() => {
+    setMode(m => m === 'dark' ? 'light' : 'dark');
+    window.location.reload();
+  }, [setMode]);
+
+  const handleEngineerNameChange = useCallback((e) => {
+    setEngineerName(e.target.value);
+  }, [setEngineerName]);
+
+  const handlePavDateChange = useCallback((e) => {
+    setDefaultPavDate(e.target.value);
+  }, [setDefaultPavDate]);
+
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mb: 3, gap: 2 }}>
       <Box sx={{ 
@@ -288,7 +303,7 @@ function TopButtons({ mode, setMode }) {
             }
           }} 
           color="inherit" 
-          onClick={() => { setMode(m => m === 'dark' ? 'light' : 'dark'); window.location.reload(); }} 
+          onClick={handleToggleTheme} 
           aria-label="toggle theme"
         >
           {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
@@ -326,7 +341,7 @@ function TopButtons({ mode, setMode }) {
           <TextField 
             size="small" 
             value={engineerName || ''} 
-            onChange={e => setEngineerName(e.target.value)} 
+            onChange={handleEngineerNameChange} 
             required 
             error={!engineerName}
             helperText={!engineerName ? 'Required field' : ''}
@@ -361,7 +376,7 @@ function TopButtons({ mode, setMode }) {
             size="small" 
             type="date" 
             value={defaultPavDate} 
-            onChange={e => setDefaultPavDate(e.target.value)} 
+            onChange={handlePavDateChange} 
             InputLabelProps={{ shrink: true }} 
             sx={{ 
               minWidth: { xs: '100%', sm: 160 }, 

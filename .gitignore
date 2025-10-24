@@ -1,2 +1,5 @@
 node_modules
 build
+
+# Performance testing artifacts
+src/performance-test.js
