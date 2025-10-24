@@ -1,4 +1,4 @@
-import React, { useContext, useCallback } from 'react';
+import React, { useContext, useCallback, memo } from 'react';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import * as XLSX from 'xlsx';
 import { AssetContext } from '../context/AssetContext';
@@ -126,4 +126,4 @@ function UploadForm() {
   );
 }
 
-export default UploadForm;
+export default memo(UploadForm);

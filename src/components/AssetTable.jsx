@@ -1,4 +1,4 @@
-import React, { useContext, useState, useMemo, useEffect, useCallback } from 'react';
+import React, { useContext, useState, useMemo, useEffect, useCallback, memo } from 'react';
 import { AssetContext } from '../context/AssetContext';
 import {
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Select, MenuItem, TextField, FormControl, InputLabel, FormHelperText,
