@@ -93,7 +93,7 @@ function EditModal({ asset, idx, onClose }) {
       return;
     }
     setConfirmOpen(true);
-  }, [form, setErrors]);
+  }, [form, isDisposalMandatory, isBranchCodeMandatory]);
 
   const confirmSave = useCallback(() => {
     const updated = [...assets];
@@ -109,7 +109,7 @@ function EditModal({ asset, idx, onClose }) {
     setAssets(updated);
     setConfirmOpen(false);
     onClose();
-  }, [assets, idx, form, setAssets, onClose]);
+  }, [assets, idx, form, isDisposalMandatory, isBranchCodeMandatory, setAssets, onClose]);
 
   const handleCloseConfirm = useCallback(() => setConfirmOpen(false), []);
 
