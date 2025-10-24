@@ -1,11 +1,13 @@
 import React, { useContext, useCallback } from 'react';
 import { AssetContext } from '../context/AssetContext';
 import * as XLSX from 'xlsx';
-import { Button } from '@mui/material';
+import { Button, useTheme } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
 
 function DownloadButton() {
   const { assets, engineerName, defaultPavDate } = useContext(AssetContext);
+  const theme = useTheme();
+  const isDark = theme.palette.mode === 'dark';
 
   const handleDownload = useCallback(() => {
     if (!assets.length) return;
@@ -30,15 +32,21 @@ function DownloadButton() {
         minWidth: { xs: 140, sm: 170 }, 
         textTransform: 'none', 
         fontSize: { xs: '0.8rem', sm: '0.875rem' },
-        background: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
-        color: '#000',
+        background: isDark 
+          ? 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)'
+          : 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)',
+        color: '#fff',
         fontWeight: 600,
+        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
         '&:hover': {
-          background: 'linear-gradient(135deg, #00f2fe 0%, #4facfe 100%)',
+          background: isDark
+            ? 'linear-gradient(135deg, #00f2fe 0%, #4facfe 100%)'
+            : 'linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%)',
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.25)',
         },
         '&:disabled': {
-          background: 'rgba(255, 255, 255, 0.12)',
-          color: 'rgba(255, 255, 255, 0.3)',
+          background: isDark ? 'rgba(255, 255, 255, 0.12)' : 'rgba(0, 0, 0, 0.12)',
+          color: isDark ? 'rgba(255, 255, 255, 0.3)' : 'rgba(0, 0, 0, 0.26)',
         }
       }}
       onClick={handleDownload}

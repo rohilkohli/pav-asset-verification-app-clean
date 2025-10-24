@@ -2,7 +2,7 @@ import React, { useContext, useState, useCallback } from 'react';
 import { AssetContext } from '../context/AssetContext';
 import {
   Dialog, DialogTitle, DialogContent, DialogActions,
-  Button, TextField, MenuItem, Select, FormControl, InputLabel, Box, FormHelperText, Typography
+  Button, TextField, MenuItem, Select, FormControl, InputLabel, Box, FormHelperText, Typography, useTheme
 } from '@mui/material';
 
 const assetStatusOptions = ["In use", "Not in use", "Not found"];
@@ -54,6 +54,8 @@ function toIsoDateString(src) {
 
 function EditModal({ asset, idx, onClose }) {
   const { assets, setAssets } = useContext(AssetContext);
+  const theme = useTheme();
+  const isDark = theme.palette.mode === 'dark';
 
   // initial values (preserve empty PAV dates as empty, convert valid dates to yyyy-mm-dd)
   const initialDate = toIsoDateString(asset['PAV Date of visit (DD-MMM-YYYY i.e: 15-Mar-2021)']);
@@ -114,16 +116,18 @@ function EditModal({ asset, idx, onClose }) {
   // UI
   return (
     <Dialog 
-      open 
+      open={true}
       onClose={onClose} 
       fullWidth 
       maxWidth="sm" 
       PaperProps={{ 
         sx: { 
           m: { xs: 2, sm: 3 },
-          background: 'linear-gradient(135deg, rgba(22, 22, 22, 0.95) 0%, rgba(22, 22, 22, 0.98) 100%)',
+          background: isDark 
+            ? 'linear-gradient(135deg, rgba(22, 22, 22, 0.95) 0%, rgba(22, 22, 22, 0.98) 100%)'
+            : 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.98) 100%)',
           backdropFilter: 'blur(20px)',
-          border: '1px solid rgba(255, 255, 255, 0.18)',
+          border: isDark ? '1px solid rgba(255, 255, 255, 0.18)' : '1px solid rgba(0, 0, 0, 0.12)',
           borderRadius: 3,
           boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
         } 
@@ -143,7 +147,7 @@ function EditModal({ asset, idx, onClose }) {
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, minWidth: { xs: '100%', sm: 300 }, pt: 1 }}>
           <FormControl fullWidth sx={{
             '& .MuiOutlinedInput-root': {
-              background: 'rgba(255, 255, 255, 0.05)',
+              background: isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.02)',
             }
           }}>
             <InputLabel>Asset Status</InputLabel>
@@ -159,7 +163,7 @@ function EditModal({ asset, idx, onClose }) {
           </FormControl>
           <FormControl fullWidth sx={{
             '& .MuiOutlinedInput-root': {
-              background: 'rgba(255, 255, 255, 0.05)',
+              background: isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.02)',
             }
           }}>
             <InputLabel>PAV Status</InputLabel>
@@ -182,13 +186,13 @@ function EditModal({ asset, idx, onClose }) {
             fullWidth
             sx={{
               '& .MuiOutlinedInput-root': {
-                background: 'rgba(255, 255, 255, 0.05)',
+                background: isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.02)',
               }
             }}
           />
           <FormControl fullWidth error={!!errors.remarks} sx={{
             '& .MuiOutlinedInput-root': {
-              background: 'rgba(255, 255, 255, 0.05)',
+              background: isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.02)',
             }
           }}>
             <InputLabel>Asset Availability Remarks</InputLabel>
@@ -213,7 +217,7 @@ function EditModal({ asset, idx, onClose }) {
             helperText={isBranchCodeMandatory ? "Branch Code required for 'Available in different branch'" : ""}
             sx={{
               '& .MuiOutlinedInput-root': {
-                background: 'rgba(255, 255, 255, 0.05)',
+                background: isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.02)',
               }
             }}
           />
@@ -232,7 +236,7 @@ function EditModal({ asset, idx, onClose }) {
                     helperText={isDisposalMandatory ? "Enter digits only (stored as RITMxxxxxxx)" : ""}
             sx={{
               '& .MuiOutlinedInput-root': {
-                background: 'rgba(255, 255, 255, 0.05)',
+                background: isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.02)',
               }
             }}
           />
@@ -274,9 +278,11 @@ function EditModal({ asset, idx, onClose }) {
         PaperProps={{ 
           sx: { 
             m: { xs: 2, sm: 3 },
-            background: 'linear-gradient(135deg, rgba(22, 22, 22, 0.95) 0%, rgba(22, 22, 22, 0.98) 100%)',
+            background: isDark 
+              ? 'linear-gradient(135deg, rgba(22, 22, 22, 0.95) 0%, rgba(22, 22, 22, 0.98) 100%)'
+              : 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.98) 100%)',
             backdropFilter: 'blur(20px)',
-            border: '1px solid rgba(255, 255, 255, 0.18)',
+            border: isDark ? '1px solid rgba(255, 255, 255, 0.18)' : '1px solid rgba(0, 0, 0, 0.12)',
             borderRadius: 3,
           } 
         }}
