@@ -76,7 +76,11 @@ describe('UploadForm _pav_id generation', () => {
     const id2 = generatePavId(null, null, 1);
     
     expect(id1).not.toBe(id2);
-    expect(id1).toContain('uploaded-0-');
-    expect(id2).toContain('uploaded-1-');
+    expect(id1).toMatch(/^uploaded-0-\d+-[a-z0-9]+$/);
+    expect(id2).toMatch(/^uploaded-1-\d+-[a-z0-9]+$/);
+    
+    // Verify structure: should include index
+    expect(id1.startsWith('uploaded-0-')).toBe(true);
+    expect(id2.startsWith('uploaded-1-')).toBe(true);
   });
 });
