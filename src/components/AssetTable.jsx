@@ -235,7 +235,16 @@ function AssetTable() {
       if (asset['Serial Number'] && a['Serial Number'] === asset['Serial Number']) return true;
       return false;
     });
-    if (originalIndex >= 0) setEditingIdx(originalIndex);
+    if (originalIndex >= 0) {
+      setEditingIdx(originalIndex);
+    } else {
+      console.error('Asset not found in assets array:', {
+        assetId: asset['_pav_id'],
+        assetCode: asset['Asset Code'],
+        serialNumber: asset['Serial Number'],
+        assetsLength: assets.length
+      });
+    }
   }, [assets]);
 
   const closeEdit = useCallback(() => setEditingIdx(null), []);
@@ -583,7 +592,7 @@ function AssetTable() {
         </Box>
       )}
 
-      {editingIdx !== null && (
+      {editingIdx !== null && assets[editingIdx] && (
         <EditModal asset={assets[editingIdx]} idx={editingIdx} onClose={closeEdit} />
       )}
     </>

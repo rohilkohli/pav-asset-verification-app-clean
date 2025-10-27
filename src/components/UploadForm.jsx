@@ -79,24 +79,32 @@ function UploadForm() {
         if (!r['New Branch Code']) r['New Branch Code'] = 'N/A';
         if (!r['Comment']) r['Comment'] = '';
 
-        // Ensure a stable id for each asset to use as React keys.
-        // Prefer Asset Code, then Serial Number; otherwise generate a timestamped id.
+        // Ensure a stable unique id for each asset to use as React keys and for identification
+        // Generate a truly unique ID by combining index with identifier and timestamp
         if (!r['_pav_id']) {
+          const timestamp = Date.now();
+          const random = Math.random().toString(36).slice(2, 9);
           if (r['Asset Code']) {
-            r['_pav_id'] = String(r['Asset Code']);
+            r['_pav_id'] = `${String(r['Asset Code'])}-${i}-${timestamp}-${random}`;
           } else if (r['Serial Number']) {
-            r['_pav_id'] = String(r['Serial Number']);
+            r['_pav_id'] = `${String(r['Serial Number'])}-${i}-${timestamp}-${random}`;
           } else {
-            r['_pav_id'] = `uploaded-${Date.now()}-${Math.random().toString(36).slice(2,9)}`;
+            r['_pav_id'] = `uploaded-${i}-${timestamp}-${random}`;
           }
         }
         
         normalized[i] = r;
       }
 
-      // set assets but suppress automatic full display — user may want to filter/search first
+      // set assets but suppress automatic full display only if dataset is large
+      // to avoid performance issues. For smaller datasets, show all by default.
       setAssets(normalized);
-      try { if (setSuppressAutoDisplay) setSuppressAutoDisplay(true); } catch (e) {}
+      try { 
+        if (setSuppressAutoDisplay) {
+          // Only suppress if more than 100 assets
+          setSuppressAutoDisplay(normalized.length > 100);
+        } 
+      } catch (e) {}
     };
     reader.readAsBinaryString(file);
   }, [setAssets, setSuppressAutoDisplay]);
