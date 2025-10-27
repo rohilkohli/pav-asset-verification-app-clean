@@ -7,7 +7,22 @@ export function AssetProvider({ children }) {
   const [assets, setAssets] = useState(() => {
     try {
       const raw = localStorage.getItem('pav_assets');
-      return raw ? JSON.parse(raw) : [];
+      const parsed = raw ? JSON.parse(raw) : [];
+      // Ensure all assets have _pav_id (for backward compatibility with old data)
+      return parsed.map((asset, idx) => {
+        if (!asset['_pav_id']) {
+          const timestamp = Date.now();
+          const random = Math.random().toString(36).slice(2, 9);
+          if (asset['Asset Code']) {
+            asset['_pav_id'] = `${String(asset['Asset Code'])}-${idx}-${timestamp}-${random}`;
+          } else if (asset['Serial Number']) {
+            asset['_pav_id'] = `${String(asset['Serial Number'])}-${idx}-${timestamp}-${random}`;
+          } else {
+            asset['_pav_id'] = `loaded-${idx}-${timestamp}-${random}`;
+          }
+        }
+        return asset;
+      });
     } catch (e) {
       return [];
     }
