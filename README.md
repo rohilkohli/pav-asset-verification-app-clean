@@ -252,7 +252,7 @@ The test file should contain columns matching the PAV asset verification format:
    The app will open at `http://localhost:3000` with hot reload enabled.
 
 3. **Test Your Changes**
-   - Upload a sample Excel/CSV file (use `Rohil_Kohli_2025_10_17.xlsx` included in the repository for testing)
+   - Upload a sample Excel/CSV file (e.g., `Rohil_Kohli_2025_10_17.xlsx` or any PAV-formatted spreadsheet)
    - Test filtering and search functionality
    - Try editing assets using the "Edit Details" button
    - Toggle between light and dark themes
