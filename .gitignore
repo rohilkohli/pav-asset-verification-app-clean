@@ -1,5 +1,41 @@
+# Dependencies
 node_modules
+/.pnp
+.pnp.js
+
+# Production build
 build
+/dist
+
+# Testing
+/coverage
+*.test.js.snap
 
 # Performance testing artifacts
 src/performance-test.js
+
+# Temporary and summary files
+*.tmp
+*_SUMMARY.md
+*SUMMARY.md
+*REPORT.md
+*REPORT.txt
+robocopy-output.txt
+
+# Environment and IDE
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.vscode
+.idea
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Misc
+.eslintcache
