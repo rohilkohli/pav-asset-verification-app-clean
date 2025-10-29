@@ -1,5 +1,5 @@
-import React, { useMemo, useState, useEffect, useCallback, memo } from 'react';
-import { AssetProvider } from './context/AssetContext';
+import React, { useMemo, useState, useEffect, useCallback, memo, useContext } from 'react';
+import { AssetProvider, AssetContext } from './context/AssetContext';
 import UploadForm from './components/UploadForm';
 import FilterBar from './components/FilterBar';
 import SearchBar from './components/SearchBar';
@@ -9,8 +9,6 @@ import DownloadButton from './components/DownloadButton';
 import { Container, Typography, Box, Paper, createTheme, ThemeProvider, Button, TextField, IconButton } from '@mui/material';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
-import { useContext } from 'react';
-import { AssetContext } from './context/AssetContext';
 /* sample-ui.css removed during cleanup; styles consolidated in styles/main.css */
 
 // Move theme creation outside component for better performance

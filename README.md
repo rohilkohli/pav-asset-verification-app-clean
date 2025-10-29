@@ -172,6 +172,59 @@ This command will build and push the `build` directory to the `gh-pages` branch.
 
 ---
 
+## 🧪 Testing
+
+### Running Tests
+
+The project includes automated tests for critical components:
+
+```bash
+npm test
+```
+
+This runs the test suite which includes:
+- **UploadForm Tests**: Validates file parsing and data normalization
+- **AssetTable Tests**: Ensures filtering, sorting, and display logic work correctly
+
+### Manual Testing with Sample Data
+
+A sample test file `Rohil_Kohli_2025_10_17.xlsx` is included in the repository. To test the application:
+
+1. **Start the development server**:
+   ```bash
+   npm start
+   ```
+
+2. **Upload the test file**:
+   - Click the "Upload" button in the application
+   - Select `Rohil_Kohli_2025_10_17.xlsx` from the repository root
+   - Verify the data loads correctly and all fields are populated
+
+3. **Test Core Features**:
+   - **Search**: Try searching by Serial Number, Asset Code, or Make
+   - **Filter**: Apply filters by Asset Type, Make, or PAV Status
+   - **Edit**: Click "Edit Details" on any asset and modify fields
+   - **Validation**: Test conditional validation (e.g., "Other" remarks require comments)
+   - **Save**: Click "Save Changes" and verify data persists after page reload
+   - **Export**: Download data in Excel or CSV format and verify all edits are included
+
+4. **Test Theme Toggle**:
+   - Switch between light and dark modes
+   - Verify all UI elements are clearly visible in both themes
+
+### Test Data Format
+
+The test file should contain columns matching the PAV asset verification format:
+- Asset Code
+- Serial Number
+- Make, Model, Asset Type
+- PAV Status, PAV Date
+- Asset Availability Remarks
+- New Branch Code, Disposal Ticket, Comment
+- Engineer Name
+
+---
+
 ## 🔧 Development
 
 ### Available Scripts
@@ -199,13 +252,19 @@ This command will build and push the `build` directory to the `gh-pages` branch.
    The app will open at `http://localhost:3000` with hot reload enabled.
 
 3. **Test Your Changes**
-   - Upload a sample Excel/CSV file
+   - Upload a sample Excel/CSV file (e.g., `Rohil_Kohli_2025_10_17.xlsx` or any PAV-formatted spreadsheet)
    - Test filtering and search functionality
    - Try editing assets using the "Edit Details" button
    - Toggle between light and dark themes
    - Test download functionality
 
-4. **Build for Production**
+4. **Run Tests**
+   ```bash
+   npm test
+   ```
+   Runs the test suite including component tests for UploadForm and AssetTable.
+
+5. **Build for Production**
    ```bash
    npm run build
    ```
