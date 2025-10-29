@@ -22,7 +22,7 @@
 - [Key Features](#-key-features)
 - [Quick Start](#-quick-start)
 - [How to Use](#-how-to-use)
-- [Technology Stack](#️-technology-stack)
+- [Technology Stack](#-technology-stack)
 - [Project Structure](#-project-structure)
 - [Architecture](#-architecture)
 - [Deployment](#-deployment)
@@ -34,6 +34,7 @@
 - [Contributing](#-contributing)
 - [Known Issues & Limitations](#-known-issues--limitations)
 - [Security & Privacy](#-security--privacy)
+- [Performance Metrics](#-performance-metrics)
 - [License](#-license)
 - [Support](#-support)
 
