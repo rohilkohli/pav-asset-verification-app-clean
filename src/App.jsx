@@ -1,7 +1,6 @@
 import React, { useMemo, useState, useEffect, useCallback, memo, useContext } from 'react';
 import { AssetProvider, AssetContext } from './context/AssetContext';
 import UploadForm from './components/UploadForm';
-import FilterBar from './components/FilterBar';
 import SearchBar from './components/SearchBar';
 import AssetTable from './components/AssetTable';
 import Footer from './components/Footer';
@@ -9,7 +8,6 @@ import DownloadButton from './components/DownloadButton';
 import { Container, Typography, Box, Paper, createTheme, ThemeProvider, Button, TextField, IconButton } from '@mui/material';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
-/* sample-ui.css removed during cleanup; styles consolidated in styles/main.css */
 
 // Move theme creation outside component for better performance
 function makeTheme(mode) {
@@ -153,7 +151,8 @@ function App() {
   });
 
   useEffect(() => { try { localStorage.setItem('pav_theme_mode', mode); } catch {} }, [mode]);
-  // Toggle a global class to help CSS variable themes (main.css) react to light mode
+  
+  // Toggle a global class for CSS variable themes
   useEffect(() => {
     try {
       const root = document.documentElement;
@@ -226,13 +225,9 @@ function App() {
             {/* Top buttons need access to context; define as child so useContext can be used safely */}
             <TopButtons mode={mode} setMode={setMode} />
 
-            {/* uniform vertical spacing between TopButtons -> SearchBar -> FilterBar */}
+            {/* Search bar with consistent spacing */}
             <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2, px: { xs: 0, sm: 2 } }}> 
               <SearchBar />
-            </Box>
-
-            <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
-              <FilterBar />
             </Box>
 
             <AssetTable />

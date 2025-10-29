@@ -10,12 +10,6 @@ jest.mock('./UploadForm', () => {
   };
 });
 
-jest.mock('./FilterBar', () => {
-  return function FilterBar() {
-    return <div data-testid="filter-bar">Filter Bar</div>;
-  };
-});
-
 jest.mock('./SearchBar', () => {
   return function SearchBar() {
     return <div data-testid="search-bar">Search Bar</div>;
