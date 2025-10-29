@@ -25,6 +25,7 @@ npm test
 
 Quick debugging tips:
 
+- Sample test data is available in `test-data/` directory. Use `test-data/Rohil_Kohli_2025_10_17.xlsx` for manual testing.
 - To reproduce a user-upload flow, run the app and use `src/components/UploadForm.jsx` UI to upload a small sample Excel/CSV. The code normalizes keys and dates — check `setAssets(normalized)` to see final shape.
 - Local persistence: clear `localStorage.removeItem('pav_assets')` to reset app state during testing.
 - If you need to inspect production bundle behavior, check `build/static/js/main.*.js` and `build/asset-manifest.json` after `npm run build`.
