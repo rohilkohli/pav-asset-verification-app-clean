@@ -4,8 +4,8 @@
 
 ### Modern Physical Asset Verification Made Simple
 
-[![React](https://img.shields.io/badge/React-18.2.0-61DAFB?style=flat-square&logo=react&logoColor=white)](https://reactjs.org/)
-[![Material-UI](https://img.shields.io/badge/MUI-5.14.0-007FFF?style=flat-square&logo=mui&logoColor=white)](https://mui.com/)
+[![React](https://img.shields.io/badge/React-19.2.0-61DAFB?style=flat-square&logo=react&logoColor=white)](https://reactjs.org/)
+[![Material-UI](https://img.shields.io/badge/MUI-7.3.4-007FFF?style=flat-square&logo=mui&logoColor=white)](https://mui.com/)
 [![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
 [![Live Demo](https://img.shields.io/badge/Demo-Live-success?style=flat-square&logo=github)](https://rohilkohli.github.io/pav-asset-verification-app-clean)
 
@@ -128,7 +128,7 @@ Deploy the `build/` folder to any static hosting (GitHub Pages, Netlify, Vercel,
 └─────────────────────────────────────────┘
 ```
 
-**Tech Stack**: React 18 • Material-UI v5 • SheetJS (XLSX) • Context API • localStorage
+**Tech Stack**: React 19 • Material-UI v7 • SheetJS (XLSX) • Context API • localStorage
 
 ---
 
