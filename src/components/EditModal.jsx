@@ -119,7 +119,12 @@ function EditModal({ asset, idx, onClose }) {
       open={true}
       onClose={onClose} 
       fullWidth 
-      maxWidth="sm" 
+      maxWidth="sm"
+      disablePortal={false}
+      disableScrollLock={false}
+      sx={{
+        zIndex: (theme) => theme.zIndex.modal + 100,
+      }}
       PaperProps={{ 
         sx: { 
           m: { xs: 2, sm: 3 },
@@ -274,7 +279,12 @@ function EditModal({ asset, idx, onClose }) {
       {/* Confirmation dialog */}
       <Dialog 
         open={confirmOpen} 
-        onClose={handleCloseConfirm} 
+        onClose={handleCloseConfirm}
+        disablePortal={false}
+        disableScrollLock={false}
+        sx={{
+          zIndex: (theme) => theme.zIndex.modal + 200,
+        }}
         PaperProps={{ 
           sx: { 
             m: { xs: 2, sm: 3 },

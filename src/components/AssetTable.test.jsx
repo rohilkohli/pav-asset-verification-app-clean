@@ -157,4 +157,67 @@ describe('AssetTable Edit Details functionality', () => {
       expect(screen.queryByTestId('edit-modal')).not.toBeInTheDocument();
     });
   });
+
+  it('should open modal correctly even with many assets (50+)', async () => {
+    // Create 50 mock assets
+    const manyAssets = Array.from({ length: 50 }, (_, i) => ({
+      '_pav_id': `asset${i}-${i}-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
+      'Asset Code': `A${String(i + 1).padStart(3, '0')}`,
+      'Serial Number': `SN${String(i + 1).padStart(3, '0')}`,
+      'Make': i % 2 === 0 ? 'Dell' : 'HP',
+      'Model': i % 2 === 0 ? 'Latitude' : 'ProBook',
+      'Asset Type': 'Laptop',
+      'Asset status': 'In use',
+      'PAV Status': 'Available',
+      'PAV Date of visit (DD-MMM-YYYY i.e: 15-Mar-2021)': '2024-01-15',
+      'Asset Availability Remarks': 'Available in same branch',
+      'New Branch Code': 'N/A',
+      'Disposal Ticket': 'N/A',
+      'Comment': ''
+    }));
+
+    const contextWithManyAssets = {
+      ...mockContextValue,
+      assets: manyAssets
+    };
+
+    render(
+      <AssetContext.Provider value={contextWithManyAssets}>
+        <AssetTable />
+      </AssetContext.Provider>
+    );
+
+    // Should render all 50 assets
+    const editButtons = screen.getAllByText('Edit Details');
+    expect(editButtons.length).toBe(50);
+
+    // Click edit on the first asset
+    fireEvent.click(editButtons[0]);
+
+    await waitFor(() => {
+      expect(screen.getByTestId('edit-modal')).toBeInTheDocument();
+    });
+
+    // Verify correct asset is being edited
+    expect(screen.getByText('Editing asset at index: 0')).toBeInTheDocument();
+    expect(screen.getByText('Asset Code: A001')).toBeInTheDocument();
+
+    // Close and test another asset in the middle
+    const closeButton = screen.getByText('Close');
+    fireEvent.click(closeButton);
+
+    await waitFor(() => {
+      expect(screen.queryByTestId('edit-modal')).not.toBeInTheDocument();
+    });
+
+    // Click edit on asset in the middle (index 25)
+    fireEvent.click(editButtons[25]);
+
+    await waitFor(() => {
+      expect(screen.getByTestId('edit-modal')).toBeInTheDocument();
+    });
+
+    expect(screen.getByText('Editing asset at index: 25')).toBeInTheDocument();
+    expect(screen.getByText('Asset Code: A026')).toBeInTheDocument();
+  });
 });
