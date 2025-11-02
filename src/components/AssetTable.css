@@ -3,10 +3,10 @@
   border: 1px solid rgba(255, 255, 255, 0.18) !important;
   position: relative;
   overflow: hidden;
-  /* Performance optimizations */
-  will-change: transform;
-  transform: translateZ(0);
-  backface-visibility: hidden;
+  /* Performance optimizations - disabled will-change and transform to fix click event handling with many cards */
+  /* will-change: transform; */
+  /* transform: translateZ(0); */
+  /* backface-visibility: hidden; */
   /* Removed 'contain' property as it can interfere with modal rendering when many cards are present */
 }
 
