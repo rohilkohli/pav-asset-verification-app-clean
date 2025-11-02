@@ -228,17 +228,8 @@ function AssetTable() {
     // Use _pav_id as the primary identifier since it's guaranteed to be unique and set during upload
     let originalIndex = -1;
     
-    console.log('[openEdit] Looking for asset:', {
-      _pav_id: asset['_pav_id'],
-      assetCode: asset['Asset Code'],
-      serialNumber: asset['Serial Number'],
-      totalAssets: assets.length,
-      displayedLength: displayed.length
-    });
-    
     // First, try direct reference comparison (most reliable for same-session assets)
     originalIndex = assets.findIndex(a => a === asset);
-    console.log('[openEdit] Direct reference match result:', originalIndex);
     
     // If direct reference fails, fall back to field comparison
     if (originalIndex === -1) {
@@ -257,23 +248,18 @@ function AssetTable() {
             a['Serial Number'] === asset['Serial Number']) return true;
         return false;
       });
-      console.log('[openEdit] Field comparison match result:', originalIndex);
     }
     
     if (originalIndex >= 0) {
-      console.log('[openEdit] SUCCESS - Setting editingIdx to:', originalIndex);
       setEditingIdx(originalIndex);
     } else {
-      console.error('[openEdit] FAILED - Asset not found in assets array:', {
+      console.error('Asset not found in assets array:', {
         assetId: asset['_pav_id'],
         assetCode: asset['Asset Code'],
-        serialNumber: asset['Serial Number'],
-        assetsLength: assets.length,
-        hasReferenceInAssets: assets.some(a => a === asset),
-        firstFewAssetIds: assets.slice(0, 3).map(a => ({ _pav_id: a['_pav_id'], code: a['Asset Code'] }))
+        serialNumber: asset['Serial Number']
       });
     }
-  }, [assets, displayed]);
+  }, [assets]);
 
   const closeEdit = useCallback(() => setEditingIdx(null), []);
 
