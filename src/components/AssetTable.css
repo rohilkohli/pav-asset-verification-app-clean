@@ -7,7 +7,7 @@
   will-change: transform;
   transform: translateZ(0);
   backface-visibility: hidden;
-  contain: layout style paint;
+  /* Removed 'contain' property as it can interfere with modal rendering when many cards are present */
 }
 
 .MuiCard-root::before {
