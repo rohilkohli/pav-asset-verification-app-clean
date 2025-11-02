@@ -256,9 +256,7 @@ function AssetTable() {
       console.error('Asset not found in assets array:', {
         assetId: asset['_pav_id'],
         assetCode: asset['Asset Code'],
-        serialNumber: asset['Serial Number'],
-        assetsLength: assets.length,
-        hasReferenceInAssets: assets.some(a => a === asset)
+        serialNumber: asset['Serial Number']
       });
     }
   }, [assets]);
@@ -460,10 +458,11 @@ function AssetTable() {
               transition: 'transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.2s ease',
               position: 'relative',
               overflow: 'hidden',
-              willChange: 'transform',
-              transform: 'translateZ(0)',
+              // Removed willChange and transform to fix click event handling with many cards
+              // willChange: 'transform',
+              // transform: 'translateZ(0)',
               '&:hover': { 
-                transform: 'translateY(-4px) translateZ(0)', 
+                transform: 'translateY(-4px)', 
                 boxShadow: '0 8px 24px 0 rgba(31, 38, 135, 0.3)',
                 border: '1px solid rgba(102, 126, 234, 0.5)',
               },

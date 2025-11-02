@@ -48,9 +48,10 @@
 }
 
 /* CSS containment for better performance */
-.MuiContainer-root {
+/* Disabled: containment interferes with modal rendering (z-index stacking context issues) */
+/* .MuiContainer-root {
   contain: layout style paint;
-}
+} */
 
 @keyframes shimmer {
   0% { background-position: -1000px 0; }
