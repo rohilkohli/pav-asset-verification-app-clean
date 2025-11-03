@@ -14,6 +14,9 @@ const availabilityOptions = [
   "Other"
 ];
 
+// Z-index for dropdown menus to appear above the modal dialog
+const DROPDOWN_Z_INDEX = 1500;
+
 // Helper to parse possible Excel serials / Date objects / strings into an ISO yyyy-mm-dd string
 // Moved outside component for performance
 function toIsoDateString(src) {
@@ -161,7 +164,7 @@ function EditModal({ asset, idx, onClose }) {
               value={form.assetStatus}
               MenuProps={{ 
                 container: () => document.body,
-                style: { zIndex: 1500 }
+                style: { zIndex: DROPDOWN_Z_INDEX }
               }}
               onChange={e => setForm(f => ({ ...f, assetStatus: e.target.value }))}
             >
@@ -181,7 +184,7 @@ function EditModal({ asset, idx, onClose }) {
               value={form.pavStatus}
               MenuProps={{ 
                 container: () => document.body,
-                style: { zIndex: 1500 }
+                style: { zIndex: DROPDOWN_Z_INDEX }
               }}
               onChange={e => setForm(f => ({ ...f, pavStatus: e.target.value }))}
             >
@@ -214,7 +217,7 @@ function EditModal({ asset, idx, onClose }) {
               value={form.remarks}
               MenuProps={{ 
                 container: () => document.body,
-                style: { zIndex: 1500 }
+                style: { zIndex: DROPDOWN_Z_INDEX }
               }}
               onChange={e => setForm(f => ({ ...f, remarks: e.target.value }))}
             >
