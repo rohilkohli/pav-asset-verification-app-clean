@@ -121,7 +121,6 @@ function EditModal({ asset, idx, onClose }) {
       fullWidth 
       maxWidth="sm"
       disablePortal={false}
-      disableScrollLock={false}
       sx={{
         zIndex: (theme) => theme.zIndex.modal + 100,
       }}
@@ -284,7 +283,6 @@ function EditModal({ asset, idx, onClose }) {
         open={confirmOpen} 
         onClose={handleCloseConfirm}
         disablePortal={false}
-        disableScrollLock={false}
         sx={{
           zIndex: (theme) => theme.zIndex.modal + 200,
         }}
