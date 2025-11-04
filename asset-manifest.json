@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/pav-asset-verification-app-clean/static/css/main.80df92f6.css",
-    "main.js": "/pav-asset-verification-app-clean/static/js/main.0e9ceb81.js",
+    "main.js": "/pav-asset-verification-app-clean/static/js/main.9312aaa1.js",
     "index.html": "/pav-asset-verification-app-clean/index.html",
     "main.80df92f6.css.map": "/pav-asset-verification-app-clean/static/css/main.80df92f6.css.map",
-    "main.0e9ceb81.js.map": "/pav-asset-verification-app-clean/static/js/main.0e9ceb81.js.map"
+    "main.9312aaa1.js.map": "/pav-asset-verification-app-clean/static/js/main.9312aaa1.js.map"
   },
   "entrypoints": [
     "static/css/main.80df92f6.css",
-    "static/js/main.0e9ceb81.js"
+    "static/js/main.9312aaa1.js"
   ]
 }
