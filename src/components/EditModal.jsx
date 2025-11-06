@@ -115,14 +115,14 @@ function EditModal({ asset, idx, onClose }) {
 
   // UI
   return (
+    <>
     <Dialog 
       open={true}
       onClose={onClose} 
       fullWidth 
       maxWidth="sm"
-      disablePortal={false}
       sx={{
-        zIndex: (theme) => theme.zIndex.modal + 100,
+        zIndex: (theme) => theme.zIndex.modal + 200,
       }}
       PaperProps={{ 
         sx: { 
@@ -158,7 +158,7 @@ function EditModal({ asset, idx, onClose }) {
             <Select
               label="Asset Status"
               value={form.assetStatus}
-              MenuProps={{ container: () => document.body }}
+              MenuProps={{ sx: { zIndex: (theme) => theme.zIndex.modal + 400 } }}
               onChange={e => setForm(f => ({ ...f, assetStatus: e.target.value }))}
             >
               {assetStatusOptions.map(opt => (
@@ -175,7 +175,7 @@ function EditModal({ asset, idx, onClose }) {
             <Select
               label="PAV Status"
               value={form.pavStatus}
-              MenuProps={{ container: () => document.body }}
+              MenuProps={{ sx: { zIndex: (theme) => theme.zIndex.modal + 400 } }}
               onChange={e => setForm(f => ({ ...f, pavStatus: e.target.value }))}
             >
               {pavStatusOptions.map(opt => (
@@ -205,7 +205,7 @@ function EditModal({ asset, idx, onClose }) {
             <Select
               label="Asset Availability Remarks"
               value={form.remarks}
-              MenuProps={{ container: () => document.body }}
+              MenuProps={{ sx: { zIndex: (theme) => theme.zIndex.modal + 400 } }}
               onChange={e => setForm(f => ({ ...f, remarks: e.target.value }))}
             >
               {availabilityOptions.map(opt => (
@@ -278,55 +278,56 @@ function EditModal({ asset, idx, onClose }) {
           Save Changes
         </Button>
       </DialogActions>
-      {/* Confirmation dialog */}
-      <Dialog 
-        open={confirmOpen} 
-        onClose={handleCloseConfirm}
-        disablePortal={false}
-        sx={{
-          zIndex: (theme) => theme.zIndex.modal + 200,
-        }}
-        PaperProps={{ 
-          sx: { 
-            m: { xs: 2, sm: 3 },
-            background: isDark 
-              ? 'linear-gradient(135deg, rgba(22, 22, 22, 0.95) 0%, rgba(22, 22, 22, 0.98) 100%)'
-              : 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.98) 100%)',
-            backdropFilter: 'blur(20px)',
-            border: isDark ? '1px solid rgba(255, 255, 255, 0.18)' : '1px solid rgba(0, 0, 0, 0.12)',
-            borderRadius: 3,
-          } 
-        }}
-      >
-        <DialogTitle sx={{ fontWeight: 700 }}>Confirm Save</DialogTitle>
-        <DialogContent>
-          <Typography>Are you sure you want to save these changes?</Typography>
-        </DialogContent>
-        <DialogActions sx={{ p: 2, gap: 1 }}>
-          <Button 
-            onClick={handleCloseConfirm}
-            sx={{
-              background: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
-              color: '#000',
-              fontWeight: 600,
-            }}
-          >
-            Cancel
-          </Button>
-          <Button 
-            onClick={confirmSave} 
-            variant="contained"
-            sx={{
-              background: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
-              color: '#000',
-              fontWeight: 600,
-            }}
-          >
-            Confirm
-          </Button>
-        </DialogActions>
-      </Dialog>
     </Dialog>
+      
+    {/* Confirmation dialog is now a SIBLING, not a child */}
+    <Dialog 
+      open={confirmOpen} 
+      onClose={handleCloseConfirm}
+      sx={{
+        zIndex: (theme) => theme.zIndex.modal + 300,
+      }}
+      PaperProps={{ 
+        sx: { 
+          m: { xs: 2, sm: 3 },
+          background: isDark 
+            ? 'linear-gradient(135deg, rgba(22, 22, 22, 0.95) 0%, rgba(22, 22, 22, 0.98) 100%)'
+            : 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.98) 100%)',
+          backdropFilter: 'blur(20px)',
+          border: isDark ? '1px solid rgba(255, 255, 255, 0.18)' : '1px solid rgba(0, 0, 0, 0.12)',
+          borderRadius: 3,
+        } 
+      }}
+    >
+      <DialogTitle sx={{ fontWeight: 700 }}>Confirm Save</DialogTitle>
+      <DialogContent>
+        <Typography>Are you sure you want to save these changes?</Typography>
+      </DialogContent>
+      <DialogActions sx={{ p: 2, gap: 1 }}>
+        <Button 
+          onClick={handleCloseConfirm}
+          sx={{
+            background: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
+            color: '#000',
+            fontWeight: 600,
+          }}
+        >
+          Cancel
+        </Button>
+        <Button 
+          onClick={confirmSave} 
+          variant="contained"
+          sx={{
+            background: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
+            color: '#000',
+            fontWeight: 600,
+          }}
+        >
+          Confirm
+        </Button>
+      </DialogActions>
+    </Dialog>
+    </>
   );
 }
 
