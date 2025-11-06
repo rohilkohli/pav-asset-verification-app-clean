@@ -158,7 +158,7 @@ function EditModal({ asset, idx, onClose }) {
             <Select
               label="Asset Status"
               value={form.assetStatus}
-              MenuProps={{ container: () => document.body }}
+              MenuProps={{ sx: { zIndex: (theme) => theme.zIndex.modal + 400 } }}
               onChange={e => setForm(f => ({ ...f, assetStatus: e.target.value }))}
             >
               {assetStatusOptions.map(opt => (
@@ -175,7 +175,7 @@ function EditModal({ asset, idx, onClose }) {
             <Select
               label="PAV Status"
               value={form.pavStatus}
-              MenuProps={{ container: () => document.body }}
+              MenuProps={{ sx: { zIndex: (theme) => theme.zIndex.modal + 400 } }}
               onChange={e => setForm(f => ({ ...f, pavStatus: e.target.value }))}
             >
               {pavStatusOptions.map(opt => (
@@ -205,7 +205,7 @@ function EditModal({ asset, idx, onClose }) {
             <Select
               label="Asset Availability Remarks"
               value={form.remarks}
-              MenuProps={{ container: () => document.body }}
+              MenuProps={{ sx: { zIndex: (theme) => theme.zIndex.modal + 400 } }}
               onChange={e => setForm(f => ({ ...f, remarks: e.target.value }))}
             >
               {availabilityOptions.map(opt => (

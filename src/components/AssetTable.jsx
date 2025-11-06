@@ -223,41 +223,14 @@ function AssetTable() {
   // Editing modal state
   const [editingIdx, setEditingIdx] = useState(null);
 
-  const openEdit = useCallback((asset) => {
-    // find original index in assets array using stable _pav_id when available
-    // Use _pav_id as the primary identifier since it's guaranteed to be unique and set during upload
-    let originalIndex = -1;
-    
-    // First, try direct reference comparison (most reliable for same-session assets)
-    originalIndex = assets.findIndex(a => a === asset);
-    
-    // If direct reference fails, fall back to field comparison
-    if (originalIndex === -1) {
-      originalIndex = assets.findIndex(a => {
-        // Try matching by _pav_id first (most reliable)
-        if (asset['_pav_id'] && a['_pav_id'] && a['_pav_id'] === asset['_pav_id']) return true;
-        // Fall back to Asset Code + Serial Number combination for better uniqueness
-        if (asset['Asset Code'] && asset['Serial Number'] && 
-            a['Asset Code'] === asset['Asset Code'] && 
-            a['Serial Number'] === asset['Serial Number']) return true;
-        // Fall back to Asset Code only if no Serial Number
-        if (asset['Asset Code'] && !asset['Serial Number'] && 
-            a['Asset Code'] === asset['Asset Code']) return true;
-        // Fall back to Serial Number only if no Asset Code
-        if (asset['Serial Number'] && !asset['Asset Code'] && 
-            a['Serial Number'] === asset['Serial Number']) return true;
-        return false;
-      });
-    }
+  const openEdit = useCallback((pavId) => {
+    // find original index in assets array using the provided _pav_id
+    const originalIndex = assets.findIndex(a => a['_pav_id'] === pavId);
     
     if (originalIndex >= 0) {
       setEditingIdx(originalIndex);
     } else {
-      console.error('Asset not found in assets array:', {
-        assetId: asset['_pav_id'],
-        assetCode: asset['Asset Code'],
-        serialNumber: asset['Serial Number']
-      });
+      console.error('Asset not found in assets array with _pav_id:', pavId);
     }
   }, [assets]);
 
@@ -588,7 +561,7 @@ function AssetTable() {
             <CardActions sx={{ pt: 0, pb: 2, px: 2 }}>
               <Button 
                 size="small" 
-                onClick={() => openEdit(asset)}
+                onClick={() => openEdit(asset['_pav_id'])}
                 sx={{
                   background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                   color: '#fff',
