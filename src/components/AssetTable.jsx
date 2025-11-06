@@ -223,14 +223,19 @@ function AssetTable() {
   // Editing modal state
   const [editingIdx, setEditingIdx] = useState(null);
 
-  const openEdit = useCallback((pavId) => {
-    // find original index in assets array using the provided _pav_id
-    const originalIndex = assets.findIndex(a => a['_pav_id'] === pavId);
+  const openEdit = useCallback((assetId) => {
+    if (!assetId) {
+      console.error('openEdit called with no assetId');
+      return;
+    }
+    
+    // Find the asset in the master list by its unique ID
+    const originalIndex = assets.findIndex(a => a['_pav_id'] === assetId);
     
     if (originalIndex >= 0) {
       setEditingIdx(originalIndex);
     } else {
-      console.error('Asset not found in assets array with _pav_id:', pavId);
+      console.error('Asset not found in assets array with id:', assetId);
     }
   }, [assets]);
 
